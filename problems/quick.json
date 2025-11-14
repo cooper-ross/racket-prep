@@ -1,0 +1,38 @@
+{
+  "id": "quick",
+  "title": "quick",
+  "difficulty": "hard",
+  "time": "20 minutes",
+  "category": "lists",
+  "description": "Write a function `quick` that takes a list of numbers and returns a new list with the elements sorted in ascending order using the quicksort algorithm.",
+  "examples": [
+    {
+      "input": "(quick (list 5 2 8 1 9))",
+      "output": "(list 1 2 5 8 9)",
+      "explanation": "Sort the list using quicksort"
+    },
+    {
+      "input": "(quick (list 1 2 3 4 5))",
+      "output": "(list 1 2 3 4 5)",
+      "explanation": "Already sorted list remains the same"
+    },
+    {
+      "input": "(quick empty)",
+      "output": "empty",
+      "explanation": "Empty list returns empty list"
+    }
+  ],
+  "starterCode": "(define (quick lst))\n\n(quick (list 5 2 8 1 9))\n(quick (list 1 2 3 4 5))\n(quick empty)",
+  "hiddenCases": [
+    "(check-expect (quick (list 5 2 8 1 9)) (list 1 2 5 8 9))",
+    "(check-expect (quick (list 1 2 3 4 5)) (list 1 2 3 4 5))",
+    "(check-expect (quick empty) empty)",
+    "(check-expect (quick (list 3 2 1)) (list 1 2 3))",
+    "(check-expect (quick (list 1)) (list 1))",
+    "(check-expect (quick (list 5 1 3 2 4)) (list 1 2 3 4 5))",
+    "(check-expect (quick (list 10 9 8 7 6 5 4 3 2 1)) (list 1 2 3 4 5 6 7 8 9 10))",
+    "(check-expect (quick (list 1 3 2)) (list 1 2 3))",
+    "(check-expect (quick (list 4 4 4 4)) (list 4 4 4 4))",
+    "(check-expect (quick (list 100 50 75 25 90)) (list 25 50 75 90 100))"
+  ]
+}

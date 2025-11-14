@@ -1,0 +1,38 @@
+{
+  "id": "reverse",
+  "title": "reverse",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "lists",
+  "description": "Write a function `reverse` that takes a list and returns a new list with the elements in reverse order.",
+  "examples": [
+    {
+      "input": "(reverse (list 1 2 3 4 5))",
+      "output": "(list 5 4 3 2 1)",
+      "explanation": "Reverse the order of elements"
+    },
+    {
+      "input": "(reverse (list 'a))",
+      "output": "(list 'a)",
+      "explanation": "Single element list remains the same"
+    },
+    {
+      "input": "(reverse empty)",
+      "output": "empty",
+      "explanation": "Empty list returns empty list"
+    }
+  ],
+  "starterCode": "(define (reverse lst))\n\n(reverse (list 1 2 3 4 5))\n(reverse (list 'a))\n(reverse empty)",
+  "hiddenCases": [
+    "(check-expect (reverse (list 1 2 3 4 5)) (list 5 4 3 2 1))",
+    "(check-expect (reverse (list 'a)) (list 'a))",
+    "(check-expect (reverse empty) empty)",
+    "(check-expect (reverse (list 1 2)) (list 2 1))",
+    "(check-expect (reverse (list 'a 'b 'c)) (list 'c 'b 'a))",
+    "(check-expect (reverse (list 1)) (list 1))",
+    "(check-expect (reverse (list 10 20 30)) (list 30 20 10))",
+    "(check-expect (reverse (list 5 4 3 2 1)) (list 1 2 3 4 5))",
+    "(check-expect (reverse (list 'x 'y)) (list 'y 'x))",
+    "(check-expect (reverse (list 100)) (list 100))"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "drop",
+  "title": "drop",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "lists",
+  "description": "Write a function `drop` that takes a list and a number n, and returns a new list containing all elements after the first n elements. If n is greater than or equal to the length of the list, return an empty list.",
+  "examples": [
+    {
+      "input": "(drop (list 1 2 3 4 5) 3)",
+      "output": "(list 4 5)",
+      "explanation": "Drop first 3 elements"
+    },
+    {
+      "input": "(drop (list 1 2 3) 5)",
+      "output": "empty",
+      "explanation": "n is greater than list length, return empty list"
+    },
+    {
+      "input": "(drop empty 2)",
+      "output": "empty",
+      "explanation": "Empty list returns empty list"
+    }
+  ],
+  "starterCode": "(define (drop lst n))\n\n(drop (list 1 2 3 4 5) 3)\n(drop (list 1 2 3) 5)\n(drop empty 2)",
+  "hiddenCases": [
+    "(check-expect (drop (list 1 2 3 4 5) 3) (list 4 5))",
+    "(check-expect (drop (list 1 2 3) 5) empty)",
+    "(check-expect (drop empty 2) empty)",
+    "(check-expect (drop (list 1 2 3 4 5) 0) (list 1 2 3 4 5))",
+    "(check-expect (drop (list 1 2 3 4 5) 1) (list 2 3 4 5))",
+    "(check-expect (drop (list 1 2 3 4 5) 5) empty)",
+    "(check-expect (drop (list 'a 'b 'c) 2) (list 'c))",
+    "(check-expect (drop (list 1 2) 3) empty)",
+    "(check-expect (drop (list 10 20 30 40 50) 4) (list 50))",
+    "(check-expect (drop (list 5) 1) empty)"
+  ]
+}

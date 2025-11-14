@@ -1,0 +1,44 @@
+{
+  "id": "is-bst",
+  "title": "bst?",
+  "difficulty": "medium",
+  "time": "10 minutes",
+  "category": "trees",
+  "description": "Write a function `bst?` that consumes any type of element and produces true if t is a binary search tree, and false otherwise. Duplicates are not allowed on either side of a sub-tree.",
+  "examples": [
+    {
+      "input": "(bst? empty)",
+      "output": "true",
+      "explanation": "An empty tree is a valid BST"
+    },
+    {
+      "input": "(bst? (make-node empty empty 5))",
+      "output": "true",
+      "explanation": "A single node with no children is a valid BST"
+    },
+    {
+      "input": "(bst? (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+      "output": "true",
+      "explanation": "Tree with root 5, left child 2, right child 8 satisfies BST property"
+    },
+    {
+      "input": "(bst? (make-node (make-node empty empty 7) (make-node empty empty 8) 5))",
+      "output": "false",
+      "explanation": "Left child 7 is greater than root 5, violating BST property"
+    }
+  ],
+  "starterCode": "(define-struct node (left right key))\n\n(define (bst? t))\n\n(bst? empty)\n(bst? (make-node empty empty 5))\n(bst? (make-node (make-node empty empty 2) (make-node empty empty 8) 5))\n(bst? (make-node (make-node empty empty 7) (make-node empty empty 8) 5))",
+  "hiddenCases": [
+    "(check-expect (bst? empty) true)",
+    "(check-expect (bst? (make-node empty empty 10)) true)",
+    "(check-expect (bst? (make-node (make-node empty empty 5) (make-node empty empty 15) 10)) true)",
+    "(check-expect (bst? (make-node (make-node empty empty 15) (make-node empty empty 20) 10)) false)",
+    "(check-expect (bst? (make-node (make-node empty empty 5) (make-node empty empty 8) 10)) false)",
+    "(check-expect (bst? (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5)) true)",
+    "(check-expect (bst? (make-node (make-node (make-node empty empty 1) (make-node empty empty 6) 2) (make-node empty empty 8) 5)) false)",
+    "(check-expect (bst? 5) false)",
+    "(check-expect (bst? (make-node empty (make-node empty empty 5) 5)) false)",
+    "(check-expect (bst? (make-node (make-node empty empty 5) empty 5)) false)"
+  ]
+}
+

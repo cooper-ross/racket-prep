@@ -1,0 +1,39 @@
+{
+  "id": "double",
+  "title": "double",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "recursion",
+  "description": "Write a function `double` that takes a number and returns twice that number.",
+  "examples": [
+    {
+      "input": "(double 5)",
+      "output": "10",
+      "explanation": "5 × 2 = 10"
+    },
+    {
+      "input": "(double 0)",
+      "output": "0",
+      "explanation": "0 × 2 = 0"
+    },
+    {
+      "input": "(double -3)",
+      "output": "-6",
+      "explanation": "-3 × 2 = -6"
+    }
+  ],
+  "starterCode": "(define (double n))\n\n(double 5)\n(double 0)\n(double -3)",
+  "hiddenCases": [
+    "(check-expect (double 0) 0)",
+    "(check-expect (double 1) 2)",
+    "(check-expect (double 2) 4)",
+    "(check-expect (double 5) 10)",
+    "(check-expect (double 10) 20)",
+    "(check-expect (double -3) -6)",
+    "(check-expect (double -10) -20)",
+    "(check-expect (double 100) 200)",
+    "(check-expect (double 25) 50)",
+    "(check-expect (double 7) 14)"
+  ]
+}
+

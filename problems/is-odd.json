@@ -1,0 +1,39 @@
+{
+  "id": "is-odd",
+  "title": "is-odd",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "recursion",
+  "description": "Write a function `is-odd` that takes a number and returns #t if it is odd, #f otherwise.",
+  "examples": [
+    {
+      "input": "(is-odd 3)",
+      "output": "#t",
+      "explanation": "3 is odd"
+    },
+    {
+      "input": "(is-odd 4)",
+      "output": "#f",
+      "explanation": "4 is even, not odd"
+    },
+    {
+      "input": "(is-odd 0)",
+      "output": "#f",
+      "explanation": "0 is even"
+    }
+  ],
+  "starterCode": "(define (is-odd n))\n\n(is-odd 3)\n(is-odd 4)\n(is-odd 0)",
+  "hiddenCases": [
+    "(check-expect (is-odd 0) #f)",
+    "(check-expect (is-odd 1) #t)",
+    "(check-expect (is-odd 2) #f)",
+    "(check-expect (is-odd 3) #t)",
+    "(check-expect (is-odd 4) #f)",
+    "(check-expect (is-odd 5) #t)",
+    "(check-expect (is-odd 10) #f)",
+    "(check-expect (is-odd 99) #t)",
+    "(check-expect (is-odd 100) #f)",
+    "(check-expect (is-odd 1001) #t)"
+  ]
+}
+

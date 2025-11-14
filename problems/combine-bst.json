@@ -1,0 +1,38 @@
+{
+  "id": "combine-bst",
+  "title": "combine-bst",
+  "difficulty": "medium",
+  "time": "15 minutes",
+  "category": "trees",
+  "description": "Write a function `combine-bst` that takes two binary search trees and returns a new BST containing all unique elements from both trees. The result should be constructed by converting both trees to sorted lists, merging them (removing duplicates), and building a new balanced BST from the merged list.",
+  "examples": [
+    {
+      "input": "(combine-bst empty empty)",
+      "output": "empty",
+      "explanation": "Combining two empty trees produces an empty tree"
+    },
+    {
+      "input": "(combine-bst empty (make-node empty empty 5))",
+      "output": "(make-node empty empty 5)",
+      "explanation": "Combining empty tree with single node tree produces the single node tree"
+    },
+    {
+      "input": "(combine-bst (make-node empty empty 3) (make-node empty empty 5))",
+      "output": "(make-node empty (make-node empty empty 5) 3)",
+      "explanation": "Combining two single node trees by inserting 5 into tree with 3"
+    }
+  ],
+  "starterCode": "(define-struct node (left right key))\n\n(define (combine-bst t1 t2))\n\n(combine-bst empty empty)\n(combine-bst empty (make-node empty empty 5))\n(combine-bst (make-node empty empty 3) (make-node empty empty 5))",
+  "hiddenCases": [
+    "(check-expect (combine-bst empty empty) empty)",
+    "(check-expect (combine-bst empty (make-node empty empty 5)) (make-node empty empty 5))",
+    "(check-expect (combine-bst (make-node empty empty 3) (make-node empty empty 5)) (make-node empty (make-node empty empty 5) 3))",
+    "(check-expect (combine-bst (make-node empty empty 5) (make-node empty empty 3)) (make-node (make-node empty empty 3) empty 5))",
+    "(check-expect (combine-bst (make-node empty empty 1) (make-node empty empty 1)) (make-node empty empty 1))",
+    "(check-expect (combine-bst (make-node (make-node empty empty 1) (make-node empty empty 3) 2) empty) (make-node (make-node empty empty 1) (make-node empty empty 3) 2))",
+    "(check-expect (combine-bst (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node empty empty 4)) (make-node (make-node empty empty 1) (make-node (make-node empty empty 3) (make-node empty empty 4) 2)))",
+    "(check-expect (combine-bst (make-node (make-node empty empty 1) (make-node empty empty 5) 3) (make-node (make-node empty empty 2) (make-node empty empty 6) 4)) (make-node (make-node (make-node empty empty 1) (make-node empty empty 2) 3) (make-node (make-node empty empty 5) (make-node empty empty 6) 4)))",
+    "(check-expect (combine-bst (make-node empty (make-node empty empty 10) 5) (make-node (make-node empty empty 3) empty 7)) (make-node (make-node empty empty 3) (make-node (make-node empty empty 7) (make-node empty empty 10) 5)))",
+    "(check-expect (combine-bst (make-node (make-node empty empty 2) (make-node empty empty 8) 5) (make-node (make-node empty empty 1) (make-node empty empty 9) 6)) (make-node (make-node (make-node empty empty 1) (make-node empty empty 2) 5) (make-node (make-node empty empty 8) (make-node empty empty 9) 6)))"
+  ]
+}

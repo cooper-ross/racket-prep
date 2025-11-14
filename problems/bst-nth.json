@@ -1,0 +1,43 @@
+{
+  "id": "bst-nth",
+  "title": "bst-nth",
+  "difficulty": "medium",
+  "time": "15 minutes",
+  "category": "trees",
+  "description": "Write a function `bst-nth` that takes a binary search tree and a non-negative integer n, and returns the element at index n in the sorted order of the tree (inorder traversal). The smallest element is at index 0. If n is out of bounds, return false.",
+  "examples": [
+    {
+      "input": "(bst-nth empty 0)",
+      "output": "false",
+      "explanation": "Empty tree has no elements"
+    },
+    {
+      "input": "(bst-nth (make-node empty empty 5) 0)",
+      "output": "5",
+      "explanation": "Single node tree, index 0 returns the element"
+    },
+    {
+      "input": "(bst-nth (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 1)",
+      "output": "5",
+      "explanation": "Inorder traversal gives (2 5 8), so index 1 is 5"
+    },
+    {
+      "input": "(bst-nth (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 3)",
+      "output": "false",
+      "explanation": "Index 3 is out of bounds for a 3-element tree"
+    }
+  ],
+  "starterCode": "(define-struct node (left right key))\n\n(define (bst-nth t n))\n\n(bst-nth empty 0)\n(bst-nth (make-node empty empty 5) 0)\n(bst-nth (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 1)\n(bst-nth (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 3)",
+  "hiddenCases": [
+    "(check-expect (bst-nth empty 0) false)",
+    "(check-expect (bst-nth (make-node empty empty 5) 0) 5)",
+    "(check-expect (bst-nth (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 1) 5)",
+    "(check-expect (bst-nth (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 3) false)",
+    "(check-expect (bst-nth (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) 0) 1)",
+    "(check-expect (bst-nth (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) 4) 6)",
+    "(check-expect (bst-nth (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) 7) false)",
+    "(check-expect (bst-nth (make-node empty (make-node empty (make-node empty empty 10) 8) 5) 2) 10)",
+    "(check-expect (bst-nth (make-node (make-node empty empty 2) empty 5) 0) 2)",
+    "(check-expect (bst-nth (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) (make-node empty (make-node empty empty 15) 12) 10) 5) 15)"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "height",
+  "title": "height",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "trees",
+  "description": "Write a function `height` that takes a binary search tree and returns the height of the tree. The height of an empty tree is 0, and the height of a single node is 1.",
+  "examples": [
+    {
+      "input": "(height empty)",
+      "output": "0",
+      "explanation": "An empty tree has height 0"
+    },
+    {
+      "input": "(height (make-node empty empty 5))",
+      "output": "1",
+      "explanation": "A single node tree has height 1"
+    },
+    {
+      "input": "(height (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+      "output": "2",
+      "explanation": "Tree with root and two children has height 2"
+    }
+  ],
+  "starterCode": "(define-struct node (left right key))\n\n(define (height t))\n\n(height empty)\n(height (make-node empty empty 5))\n(height (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+  "hiddenCases": [
+    "(check-expect (height empty) 0)",
+    "(check-expect (height (make-node empty empty 5)) 1)",
+    "(check-expect (height (make-node (make-node empty empty 2) (make-node empty empty 8) 5)) 2)",
+    "(check-expect (height (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5)) 3)",
+    "(check-expect (height (make-node empty (make-node empty (make-node empty empty 10) 8) 5)) 3)",
+    "(check-expect (height (make-node (make-node empty empty 2) empty 5)) 2)",
+    "(check-expect (height (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) (make-node empty (make-node empty empty 15) 12) 10)) 4)",
+    "(check-expect (height (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) empty 10)) 4)",
+    "(check-expect (height (make-node empty (make-node (make-node (make-node empty empty 13) empty 17) (make-node empty empty 25) 20) 15)) 4)",
+    "(check-expect (height (make-node (make-node (make-node (make-node (make-node empty empty 1) empty 4) empty 6) empty 9) (make-node (make-node empty empty 14) (make-node empty empty 18) 16) 12)) 5)"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "list-remove",
+  "title": "list-remove",
+  "difficulty": "medium",
+  "time": "10 minutes",
+  "category": "lists",
+  "description": "Write a function `list-remove` that takes a list and a value, and returns a new list with the first occurrence of the value removed. If the value is not in the list, return the original list.",
+  "examples": [
+    {
+      "input": "(list-remove (list 1 2 3 4 5) 3)",
+      "output": "(list 1 2 4 5)",
+      "explanation": "Remove first occurrence of 3"
+    },
+    {
+      "input": "(list-remove (list 1 2 3) 5)",
+      "output": "(list 1 2 3)",
+      "explanation": "Value not in list, return original list"
+    },
+    {
+      "input": "(list-remove (list 1 2 2 3) 2)",
+      "output": "(list 1 2 3)",
+      "explanation": "Remove only first occurrence of 2"
+    }
+  ],
+  "starterCode": "(define (list-remove lst val))\n\n(list-remove (list 1 2 3 4 5) 3)\n(list-remove (list 1 2 3) 5)\n(list-remove (list 1 2 2 3) 2)",
+  "hiddenCases": [
+    "(check-expect (list-remove (list 1 2 3 4 5) 3) (list 1 2 4 5))",
+    "(check-expect (list-remove (list 1 2 3) 5) (list 1 2 3))",
+    "(check-expect (list-remove (list 1 2 2 3) 2) (list 1 2 3))",
+    "(check-expect (list-remove (list 1 2 3) 1) (list 2 3))",
+    "(check-expect (list-remove (list 1 2 3) 3) (list 1 2))",
+    "(check-expect (list-remove empty 5) empty)",
+    "(check-expect (list-remove (list 5) 5) empty)",
+    "(check-expect (list-remove (list 'a 'b 'c) 'b) (list 'a 'c))",
+    "(check-expect (list-remove (list 1 1 1) 1) (list 1 1))",
+    "(check-expect (list-remove (list 10 20 30 20 40) 20) (list 10 30 20 40))"
+  ]
+}

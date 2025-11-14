@@ -1,0 +1,38 @@
+{
+  "id": "evens",
+  "title": "evens",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "lists",
+  "description": "Write a function `evens` that takes a list of any type and returns a new list containing only the elements at even positions (0, 2, 4, ...), assuming the first element is at position 0.",
+  "examples": [
+    {
+      "input": "(evens (list 0 1 2 3 4 5))",
+      "output": "(list 0 2 4)",
+      "explanation": "Elements at positions 0, 2, 4 are 0, 2, 4"
+    },
+    {
+      "input": "(evens (list 'a 'b 'c 'd 'e))",
+      "output": "(list 'a 'c 'e)",
+      "explanation": "Elements at even positions 0, 2, 4 are a, c, e"
+    },
+    {
+      "input": "(evens empty)",
+      "output": "empty",
+      "explanation": "Empty list produces empty list"
+    }
+  ],
+  "starterCode": "(define (evens lst))\n\n(evens (list 0 1 2 3 4 5))\n(evens (list 'a 'b 'c 'd 'e))\n(evens empty)",
+  "hiddenCases": [
+    "(check-expect (evens (list 0 1 2 3 4 5)) (list 0 2 4))",
+    "(check-expect (evens (list 'a 'b 'c 'd 'e)) (list 'a 'c 'e))",
+    "(check-expect (evens empty) empty)",
+    "(check-expect (evens (list 1 2 3)) (list 1 3))",
+    "(check-expect (evens (list 'x)) (list 'x))",
+    "(check-expect (evens (list 1 2 3 4 5 6 7)) (list 1 3 5 7))",
+    "(check-expect (evens (list 'a 'b 'c 'd)) (list 'a 'c))",
+    "(check-expect (evens (list 10 20 30 40 50)) (list 10 30 50))",
+    "(check-expect (evens (list 5)) (list 5))",
+    "(check-expect (evens (list 100 200 300 400 500 600)) (list 100 300 500))"
+  ]
+}

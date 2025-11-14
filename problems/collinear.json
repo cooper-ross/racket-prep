@@ -1,0 +1,38 @@
+{
+  "id": "collinear",
+  "title": "collinear",
+  "difficulty": "medium",
+  "time": "10 minutes",
+  "category": "recursion",
+  "description": "Write a function `collinear` that takes six numbers x1, y1, x2, y2, x3, y3 representing three distinct points (x1,y1), (x2,y2), (x3,y3) on the Cartesian plane, and returns true if the points are collinear (lie on the same straight line), and false otherwise.",
+  "examples": [
+    {
+      "input": "(collinear 0 0 1 1 2 2)",
+      "output": "true",
+      "explanation": "Points (0,0), (1,1), (2,2) lie on the line y = x"
+    },
+    {
+      "input": "(collinear 0 0 1 0 2 0)",
+      "output": "true",
+      "explanation": "Points (0,0), (1,0), (2,0) lie on the line y = 0"
+    },
+    {
+      "input": "(collinear 0 0 1 1 2 0)",
+      "output": "false",
+      "explanation": "Points (0,0), (1,1), (2,0) do not lie on the same line"
+    }
+  ],
+  "starterCode": "(define (collinear x1 y1 x2 y2 x3 y3))\n\n(collinear 0 0 1 1 2 2)\n(collinear 0 0 1 0 2 0)\n(collinear 0 0 1 1 2 0)",
+  "hiddenCases": [
+    "(check-expect (collinear 0 0 1 1 2 2) true)",
+    "(check-expect (collinear 0 0 1 0 2 0) true)",
+    "(check-expect (collinear 0 0 1 1 2 0) false)",
+    "(check-expect (collinear 1 1 2 2 3 3) true)",
+    "(check-expect (collinear 5 10 10 15 15 20) true)",
+    "(check-expect (collinear 0 0 0 1 0 2) true)",
+    "(check-expect (collinear 1 2 3 4 5 7) false)",
+    "(check-expect (collinear 2 3 4 5 6 7) true)",
+    "(check-expect (collinear -1 -1 0 0 1 1) true)",
+    "(check-expect (collinear 10 5 20 10 30 20) false)"
+  ]
+}

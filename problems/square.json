@@ -1,0 +1,39 @@
+{
+  "id": "square",
+  "title": "square",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "recursion",
+  "description": "Write a function `square` that takes a number and returns its square (the number multiplied by itself).",
+  "examples": [
+    {
+      "input": "(square 5)",
+      "output": "25",
+      "explanation": "5 × 5 = 25"
+    },
+    {
+      "input": "(square 0)",
+      "output": "0",
+      "explanation": "0 × 0 = 0"
+    },
+    {
+      "input": "(square -3)",
+      "output": "9",
+      "explanation": "-3 × -3 = 9"
+    }
+  ],
+  "starterCode": "(define (square n))\n\n(square 5)\n(square 0)\n(square -3)",
+  "hiddenCases": [
+    "(check-expect (square 0) 0)",
+    "(check-expect (square 1) 1)",
+    "(check-expect (square 2) 4)",
+    "(check-expect (square 3) 9)",
+    "(check-expect (square 4) 16)",
+    "(check-expect (square 5) 25)",
+    "(check-expect (square 10) 100)",
+    "(check-expect (square -3) 9)",
+    "(check-expect (square -5) 25)",
+    "(check-expect (square 12) 144)"
+  ]
+}
+

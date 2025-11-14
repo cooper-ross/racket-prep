@@ -1,0 +1,38 @@
+{
+  "id": "perfect",
+  "title": "perfect?",
+  "difficulty": "medium",
+  "time": "15 minutes",
+  "category": "trees",
+  "description": "Write a function `perfect?` that takes a binary search tree and returns true if the tree is perfect (all levels are completely filled), and false otherwise.",
+  "examples": [
+    {
+      "input": "(perfect? empty)",
+      "output": "true",
+      "explanation": "An empty tree is considered perfect"
+    },
+    {
+      "input": "(perfect? (make-node empty empty 5))",
+      "output": "true",
+      "explanation": "A single node tree is perfect"
+    },
+    {
+      "input": "(perfect? (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+      "output": "false",
+      "explanation": "Tree is not perfect because the leaf nodes are not at the same level"
+    }
+  ],
+  "starterCode": "(define-struct node (left right key))\n\n(define (perfect? t))\n\n(perfect? empty)\n(perfect? (make-node empty empty 5))\n(perfect? (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+  "hiddenCases": [
+    "(check-expect (perfect? empty) true)",
+    "(check-expect (perfect? (make-node empty empty 5)) true)",
+    "(check-expect (perfect? (make-node (make-node empty empty 2) (make-node empty empty 8) 5)) false)",
+    "(check-expect (perfect? (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5)) true)",
+    "(check-expect (perfect? (make-node empty (make-node empty (make-node empty empty 10) 8) 5)) false)",
+    "(check-expect (perfect? (make-node (make-node empty empty 2) empty 5)) false)",
+    "(check-expect (perfect? (make-node (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) (make-node (make-node (make-node empty empty 9) (make-node empty empty 11) 10) (make-node (make-node empty empty 13) (make-node empty empty 15) 14) 12) 6)) true)",
+    "(check-expect (perfect? (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) empty 10)) false)",
+    "(check-expect (perfect? (make-node empty (make-node (make-node (make-node empty empty 13) empty 17) (make-node empty empty 25) 20) 15)) false)",
+    "(check-expect (perfect? (make-node (make-node (make-node (make-node (make-node empty empty 1) empty 4) empty 6) empty 9) (make-node (make-node empty empty 14) (make-node empty empty 18) 16) 12)) false)"
+  ]
+}

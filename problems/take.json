@@ -1,0 +1,38 @@
+{
+  "id": "take",
+  "title": "take",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "lists",
+  "description": "Write a function `take` that takes a list and a number n, and returns a new list containing the first n elements of the original list. If n is greater than the length of the list, return the entire list.",
+  "examples": [
+    {
+      "input": "(take (list 1 2 3 4 5) 3)",
+      "output": "(list 1 2 3)",
+      "explanation": "Take first 3 elements"
+    },
+    {
+      "input": "(take (list 1 2 3) 5)",
+      "output": "(list 1 2 3)",
+      "explanation": "n is greater than list length, return entire list"
+    },
+    {
+      "input": "(take empty 2)",
+      "output": "empty",
+      "explanation": "Empty list returns empty list"
+    }
+  ],
+  "starterCode": "(define (take lst n))\n\n(take (list 1 2 3 4 5) 3)\n(take (list 1 2 3) 5)\n(take empty 2)",
+  "hiddenCases": [
+    "(check-expect (take (list 1 2 3 4 5) 3) (list 1 2 3))",
+    "(check-expect (take (list 1 2 3) 5) (list 1 2 3))",
+    "(check-expect (take empty 2) empty)",
+    "(check-expect (take (list 1 2 3 4 5) 0) empty)",
+    "(check-expect (take (list 1 2 3 4 5) 1) (list 1))",
+    "(check-expect (take (list 1 2 3 4 5) 5) (list 1 2 3 4 5))",
+    "(check-expect (take (list 'a 'b 'c) 2) (list 'a 'b))",
+    "(check-expect (take (list 1 2) 3) (list 1 2))",
+    "(check-expect (take (list 10 20 30 40 50) 4) (list 10 20 30 40))",
+    "(check-expect (take (list 5) 1) (list 5))"
+  ]
+}

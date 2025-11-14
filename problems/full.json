@@ -1,0 +1,43 @@
+{
+  "id": "full",
+  "title": "full?",
+  "difficulty": "medium",
+  "time": "10 minutes",
+  "category": "trees",
+  "description": "Write a function `full?` that takes a binary search tree and returns true if the tree is full (every node has either 0 or 2 children), and false otherwise.",
+  "examples": [
+    {
+      "input": "(full? empty)",
+      "output": "true",
+      "explanation": "An empty tree is considered full"
+    },
+    {
+      "input": "(full? (make-node empty empty 5))",
+      "output": "true",
+      "explanation": "A single node tree is full"
+    },
+    {
+      "input": "(full? (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+      "output": "true",
+      "explanation": "All nodes have either 0 or 2 children"
+    },
+    {
+      "input": "(full? (make-node (make-node empty empty 2) empty 5))",
+      "output": "false",
+      "explanation": "Root has only one child"
+    }
+  ],
+  "starterCode": "(define-struct node (left right key))\n\n(define (full? t))\n\n(full? empty)\n(full? (make-node empty empty 5))\n(full? (make-node (make-node empty empty 2) (make-node empty empty 8) 5))\n(full? (make-node (make-node empty empty 2) empty 5))",
+  "hiddenCases": [
+    "(check-expect (full? empty) true)",
+    "(check-expect (full? (make-node empty empty 5)) true)",
+    "(check-expect (full? (make-node (make-node empty empty 2) (make-node empty empty 8) 5)) true)",
+    "(check-expect (full? (make-node (make-node empty empty 2) empty 5)) false)",
+    "(check-expect (full? (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5)) true)",
+    "(check-expect (full? (make-node empty (make-node empty (make-node empty empty 10) 8) 5)) false)",
+    "(check-expect (full? (make-node (make-node empty empty 2) empty 5)) false)",
+    "(check-expect (full? (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) (make-node empty (make-node empty empty 15) 12) 10)) false)",
+    "(check-expect (full? (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) empty 10)) false)",
+    "(check-expect (full? (make-node empty (make-node (make-node (make-node empty empty 13) empty 17) (make-node empty empty 25) 20) 15)) false)"
+  ]
+}

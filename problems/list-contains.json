@@ -1,0 +1,38 @@
+{
+  "id": "list-contains",
+  "title": "list-contains?",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "lists",
+  "description": "Write a function `list-contains?` that takes a list and a value, and returns true if the value is in the list, and false otherwise.",
+  "examples": [
+    {
+      "input": "(list-contains? (list 1 2 3 4 5) 3)",
+      "output": "true",
+      "explanation": "3 is in the list"
+    },
+    {
+      "input": "(list-contains? (list 1 2 3 4 5) 6)",
+      "output": "false",
+      "explanation": "6 is not in the list"
+    },
+    {
+      "input": "(list-contains? empty 5)",
+      "output": "false",
+      "explanation": "Value not found in empty list"
+    }
+  ],
+  "starterCode": "(define (list-contains? lst val))\n\n(list-contains? (list 1 2 3 4 5) 3)\n(list-contains? (list 1 2 3 4 5) 6)\n(list-contains? empty 5)",
+  "hiddenCases": [
+    "(check-expect (list-contains? (list 1 2 3 4 5) 3) true)",
+    "(check-expect (list-contains? (list 1 2 3 4 5) 6) false)",
+    "(check-expect (list-contains? empty 5) false)",
+    "(check-expect (list-contains? (list 1 2 3) 1) true)",
+    "(check-expect (list-contains? (list 'a 'b 'c) 'b) true)",
+    "(check-expect (list-contains? (list 1 2 3) 4) false)",
+    "(check-expect (list-contains? (list 10 20 30) 20) true)",
+    "(check-expect (list-contains? (list 5 4 3 2 1) 5) true)",
+    "(check-expect (list-contains? (list 'x 'y 'z) 'w) false)",
+    "(check-expect (list-contains? (list 100 200 300) 400) false)"
+  ]
+}

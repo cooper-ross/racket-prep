@@ -1,0 +1,38 @@
+{
+  "id": "filter",
+  "title": "filter",
+  "difficulty": "medium",
+  "time": "10 minutes",
+  "category": "lists",
+  "description": "Write a function `filter` that takes a predicate function and a list, and returns a new list containing only the elements for which the predicate returns true. **Note:** You must implement your own version; you cannot use Racket's built-in `filter` function.",
+  "examples": [
+    {
+      "input": "(filter even? (list 1 2 3 4 5 6))",
+      "output": "(list 2 4 6)",
+      "explanation": "Keep only even numbers"
+    },
+    {
+      "input": "(filter (lambda (x) (> x 3)) (list 1 2 3 4 5 6))",
+      "output": "(list 4 5 6)",
+      "explanation": "Keep only numbers greater than 3"
+    },
+    {
+      "input": "(filter (lambda (x) true) (list 1 2 3))",
+      "output": "(list 1 2 3)",
+      "explanation": "All elements satisfy the predicate"
+    }
+  ],
+  "starterCode": "(define (filter pred lst))\n\n(filter even? (list 1 2 3 4 5 6))\n(filter (lambda (x) (> x 3)) (list 1 2 3 4 5 6))\n(filter (lambda (x) true) (list 1 2 3))",
+  "hiddenCases": [
+    "(check-expect (filter even? (list 1 2 3 4 5 6)) (list 2 4 6))",
+    "(check-expect (filter (lambda (x) (> x 3)) (list 1 2 3 4 5 6)) (list 4 5 6))",
+    "(check-expect (filter (lambda (x) true) (list 1 2 3)) (list 1 2 3))",
+    "(check-expect (filter (lambda (x) false) (list 1 2 3)) empty)",
+    "(check-expect (filter (lambda (x) (= x 5)) (list 1 5 3 5 7)) (list 5 5))",
+    "(check-expect (filter (lambda (x) (string=? x \"a\")) (list \"a\" \"b\" \"a\" \"c\")) (list \"a\" \"a\"))",
+    "(check-expect (filter positive? (list 1 -2 3 -4 5)) (list 1 3 5))",
+    "(check-expect (filter zero? (list 1 0 3 0 5)) (list 0 0))",
+    "(check-expect (filter (lambda (x) (< x 10)) (list 5 15 8 20 3)) (list 5 8 3))",
+    "(check-expect (filter (lambda (x) (> (string-length x) 2)) (list \"a\" \"abc\" \"de\" \"fghi\")) (list \"abc\" \"fghi\"))"
+  ]
+}

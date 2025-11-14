@@ -1,0 +1,38 @@
+{
+  "id": "remove-duplicates",
+  "title": "remove-duplicates",
+  "difficulty": "medium",
+  "time": "10 minutes",
+  "category": "lists",
+  "description": "Write a function `remove-duplicates` that takes a list and returns a new list with all duplicate elements removed, preserving the order of first occurrences.",
+  "examples": [
+    {
+      "input": "(remove-duplicates (list 1 2 3 2 1 4 5 3))",
+      "output": "(list 1 2 3 4 5)",
+      "explanation": "Remove duplicates while preserving order of first occurrences"
+    },
+    {
+      "input": "(remove-duplicates (list 1 1 1 1 1))",
+      "output": "(list 1)",
+      "explanation": "All duplicates removed"
+    },
+    {
+      "input": "(remove-duplicates (list 'a 'b 'c 'd 'e))",
+      "output": "(list 'a 'b 'c 'd 'e)",
+      "explanation": "No duplicates to remove"
+    }
+  ],
+  "starterCode": "(define (remove-duplicates lst))\n\n(remove-duplicates (list 1 2 3 2 1 4 5 3))\n(remove-duplicates (list 1 1 1 1 1))\n(remove-duplicates (list 'a 'b 'c 'd 'e))",
+  "hiddenCases": [
+    "(check-expect (remove-duplicates (list 1 2 3 2 1 4 5 3)) (list 1 2 3 4 5))",
+    "(check-expect (remove-duplicates (list 1 1 1 1 1)) (list 1))",
+    "(check-expect (remove-duplicates (list 'a 'b 'c 'd 'e)) (list 'a 'b 'c 'd 'e))",
+    "(check-expect (remove-duplicates empty) empty)",
+    "(check-expect (remove-duplicates (list 1 2 3)) (list 1 2 3))",
+    "(check-expect (remove-duplicates (list 1 2 2 3 3 3)) (list 1 2 3))",
+    "(check-expect (remove-duplicates (list 'a 'a 'b 'b 'c 'c)) (list 'a 'b 'c))",
+    "(check-expect (remove-duplicates (list 5 5 5 5 5)) (list 5))",
+    "(check-expect (remove-duplicates (list 1 3 5 7 9)) (list 1 3 5 7 9))",
+    "(check-expect (remove-duplicates (list 10 20 10 30 20 40)) (list 10 20 30 40))"
+  ]
+}

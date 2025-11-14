@@ -1,0 +1,39 @@
+{
+  "id": "is-even",
+  "title": "is-even",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "recursion",
+  "description": "Write a function `is-even` that takes a number and returns #t if it is even, #f otherwise.",
+  "examples": [
+    {
+      "input": "(is-even 4)",
+      "output": "#t",
+      "explanation": "4 is even"
+    },
+    {
+      "input": "(is-even 5)",
+      "output": "#f",
+      "explanation": "5 is odd, not even"
+    },
+    {
+      "input": "(is-even 0)",
+      "output": "#t",
+      "explanation": "0 is even"
+    }
+  ],
+  "starterCode": "(define (is-even n))\n\n(is-even 4)\n(is-even 5)\n(is-even 0)",
+  "hiddenCases": [
+    "(check-expect (is-even 0) #t)",
+    "(check-expect (is-even 1) #f)",
+    "(check-expect (is-even 2) #t)",
+    "(check-expect (is-even 3) #f)",
+    "(check-expect (is-even 4) #t)",
+    "(check-expect (is-even 5) #f)",
+    "(check-expect (is-even 10) #t)",
+    "(check-expect (is-even 99) #f)",
+    "(check-expect (is-even 100) #t)",
+    "(check-expect (is-even 1000) #t)"
+  ]
+}
+

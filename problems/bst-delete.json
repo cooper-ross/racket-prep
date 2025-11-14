@@ -1,0 +1,38 @@
+{
+  "id": "bst-delete",
+  "title": "bst-delete",
+  "difficulty": "hard",
+  "time": "20 minutes",
+  "category": "trees",
+  "description": "Write a function `bst-delete` that takes a binary search tree and a value, and returns a new BST with the value removed while maintaining the BST property. If the value is not in the tree, return the original tree. If you need to pick a new root node, do the minimum value from the right subtree.",
+  "examples": [
+    {
+      "input": "(bst-delete empty 5)",
+      "output": "empty",
+      "explanation": "Delete from empty tree"
+    },
+    {
+      "input": "(bst-delete (make-node empty empty 5) 5)",
+      "output": "empty",
+      "explanation": "Delete single node leaves empty tree"
+    },
+    {
+      "input": "(bst-delete (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 2)",
+      "output": "(make-node empty (make-node empty empty 8) 5)",
+      "explanation": "Delete leaf node 2"
+    }
+  ],
+  "starterCode": "(define-struct node (left right key))\n\n(define (bst-delete t val))\n\n(bst-delete empty 5)\n(bst-delete (make-node empty empty 5) 5)\n(bst-delete (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 2)",
+  "hiddenCases": [
+    "(check-expect (bst-delete empty 5) empty)",
+    "(check-expect (bst-delete (make-node empty empty 5) 5) empty)",
+    "(check-expect (bst-delete (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 2) (make-node empty (make-node empty empty 8) 5))",
+    "(check-expect (bst-delete (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 8) (make-node (make-node empty empty 2) empty 5))",
+    "(check-expect (bst-delete (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 5) (make-node (make-node empty empty 2) empty 8))",
+    "(check-expect (bst-delete (make-node (make-node empty empty 2) (make-node empty empty 8) 5) 10) (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+    "(check-expect (bst-delete (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) 2) (make-node (make-node (make-node empty empty 1) empty 3) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5))",
+    "(check-expect (bst-delete (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) 7) (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) empty 8) 5))",
+    "(check-expect (bst-delete (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) 5) (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node empty (make-node empty empty 8) 7) 6))",
+    "(check-expect (bst-delete (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) 9) (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5))"
+  ]
+}

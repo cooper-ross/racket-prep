@@ -1,0 +1,39 @@
+{
+  "id": "first-or-zero",
+  "title": "first-or-zero",
+  "difficulty": "easy",
+  "time": "2 minutes",
+  "category": "lists",
+  "description": "Write a function `first-or-zero` that takes a list of numbers and returns the first element of the list, or 0 if the list is empty.",
+  "examples": [
+    {
+      "input": "(first-or-zero (list 5 10 15))",
+      "output": "5",
+      "explanation": "The first element is 5"
+    },
+    {
+      "input": "(first-or-zero empty)",
+      "output": "0",
+      "explanation": "The list is empty, so return 0"
+    },
+    {
+      "input": "(first-or-zero (list 42))",
+      "output": "42",
+      "explanation": "The first (and only) element is 42"
+    }
+  ],
+  "starterCode": "(define (first-or-zero lst))\n\n(first-or-zero (list 5 10 15))\n(first-or-zero empty)\n(first-or-zero (list 42))",
+  "hiddenCases": [
+    "(check-expect (first-or-zero empty) 0)",
+    "(check-expect (first-or-zero (list 5)) 5)",
+    "(check-expect (first-or-zero (list 5 10 15)) 5)",
+    "(check-expect (first-or-zero (list 42)) 42)",
+    "(check-expect (first-or-zero (list 100 200 300)) 100)",
+    "(check-expect (first-or-zero (list 1 2 3 4 5)) 1)",
+    "(check-expect (first-or-zero (list -5 -10)) -5)",
+    "(check-expect (first-or-zero (list 0 1 2)) 0)",
+    "(check-expect (first-or-zero (list 999)) 999)",
+    "(check-expect (first-or-zero (list 7 8 9 10)) 7)"
+  ]
+}
+

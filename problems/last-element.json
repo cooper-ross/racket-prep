@@ -1,0 +1,39 @@
+{
+  "id": "last-element",
+  "title": "last-element",
+  "difficulty": "easy",
+  "time": "3 minutes",
+  "category": "lists",
+  "description": "Write a function `last-element` that takes a non-empty list and returns the last element of the list.\n\nYou can assume the list will always have at least one element.",
+  "examples": [
+    {
+      "input": "(last-element (list 1 2 3 4 5))",
+      "output": "5",
+      "explanation": "The last element is 5"
+    },
+    {
+      "input": "(last-element (list 'a))",
+      "output": "'a",
+      "explanation": "The last (and only) element is a"
+    },
+    {
+      "input": "(last-element (list 10 20 30))",
+      "output": "30",
+      "explanation": "The last element is 30"
+    }
+  ],
+  "starterCode": "(define (last-element lst))\n\n(last-element (list 1 2 3 4 5))\n(last-element (list 'a))\n(last-element (list 10 20 30))",
+  "hiddenCases": [
+    "(check-expect (last-element (list 1)) 1)",
+    "(check-expect (last-element (list 1 2)) 2)",
+    "(check-expect (last-element (list 1 2 3)) 3)",
+    "(check-expect (last-element (list 1 2 3 4 5)) 5)",
+    "(check-expect (last-element (list 'a)) 'a)",
+    "(check-expect (last-element (list 'a 'b 'c)) 'c)",
+    "(check-expect (last-element (list 10 20 30)) 30)",
+    "(check-expect (last-element (list 100)) 100)",
+    "(check-expect (last-element (list 5 10 15 20 25)) 25)",
+    "(check-expect (last-element (list 7 8 9 10)) 10)"
+  ]
+}
+

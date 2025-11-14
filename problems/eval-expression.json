@@ -1,0 +1,43 @@
+{
+  "id": "eval-expression",
+  "title": "eval-expression",
+  "difficulty": "hard",
+  "time": "30 minutes",
+  "category": "recursion",
+  "description": "Write a function `eval-expression` that takes a string representing an arithmetic expression and evaluates it. The function should handle basic arithmetic operations (+, -, *, /) with proper operator precedence (multiplication and division before addition and subtraction) and parentheses for grouping. Return the numerical result or false if the expression is invalid.",
+  "examples": [
+    {
+      "input": "(eval-expression \"5 + 3\")",
+      "output": "8",
+      "explanation": "Simple addition: 5 + 3 = 8"
+    },
+    {
+      "input": "(eval-expression \"(2 + 3) * 4\")",
+      "output": "20",
+      "explanation": "Parentheses first: (2 + 3) = 5, then 5 * 4 = 20"
+    },
+    {
+      "input": "(eval-expression \"10 / 2 + 3\")",
+      "output": "8",
+      "explanation": "Division before addition: 10 / 2 = 5, then 5 + 3 = 8"
+    },
+    {
+      "input": "(eval-expression \"2 * (3 + 4) - 1\")",
+      "output": "13",
+      "explanation": "Parentheses first: (3 + 4) = 7, then 2 * 7 = 14, then 14 - 1 = 13"
+    }
+  ],
+  "starterCode": "(define (eval-expression expr))\n\n(eval-expression \"5 + 3\")\n(eval-expression \"(2 + 3) * 4\")\n(eval-expression \"10 / 2 + 3\")\n(eval-expression \"2 * (3 + 4) - 1\")",
+  "hiddenCases": [
+    "(check-expect (eval-expression \"5 + 3\") 8)",
+    "(check-expect (eval-expression \"(2 + 3) * 4\") 20)",
+    "(check-expect (eval-expression \"10 / 2 + 3\") 8)",
+    "(check-expect (eval-expression \"2 * (3 + 4) - 1\") 13)",
+    "(check-expect (eval-expression \"15 - 3 * 2\") 9)",
+    "(check-expect (eval-expression \"(10 + 5) / (2 + 3)\") 3)",
+    "(check-expect (eval-expression \"2 + 3 * 4 - 1\") 13)",
+    "(check-expect (eval-expression \"100 / 10 / 2\") 5)",
+    "(check-expect (eval-expression \"-5 + 10\") 5)",
+    "(check-expect (eval-expression \"(7 - 3) * (4 + 1)\") 20)"
+  ]
+}

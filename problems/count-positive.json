@@ -1,0 +1,39 @@
+{
+  "id": "count-positive",
+  "title": "count-positive",
+  "difficulty": "easy",
+  "time": "3 minutes",
+  "category": "lists",
+  "description": "Write a function `count-positive` that takes a list of numbers and returns the count of positive numbers (numbers greater than 0) in the list.",
+  "examples": [
+    {
+      "input": "(count-positive (list 1 -2 3 -4 5))",
+      "output": "3",
+      "explanation": "There are 3 positive numbers: 1, 3, and 5"
+    },
+    {
+      "input": "(count-positive (list -1 -2 -3))",
+      "output": "0",
+      "explanation": "There are no positive numbers"
+    },
+    {
+      "input": "(count-positive empty)",
+      "output": "0",
+      "explanation": "Empty list has 0 positive numbers"
+    }
+  ],
+  "starterCode": "(define (count-positive lst))\n\n(count-positive (list 1 -2 3 -4 5))\n(count-positive (list -1 -2 -3))\n(count-positive empty)",
+  "hiddenCases": [
+    "(check-expect (count-positive empty) 0)",
+    "(check-expect (count-positive (list 1 2 3)) 3)",
+    "(check-expect (count-positive (list -1 -2 -3)) 0)",
+    "(check-expect (count-positive (list 1 -2 3 -4 5)) 3)",
+    "(check-expect (count-positive (list 0 0 0)) 0)",
+    "(check-expect (count-positive (list 1 0 -1)) 1)",
+    "(check-expect (count-positive (list 10 20 30 40 50)) 5)",
+    "(check-expect (count-positive (list -5 -10 15 -20 25)) 2)",
+    "(check-expect (count-positive (list 100)) 1)",
+    "(check-expect (count-positive (list 0 1 2 3 4 5)) 5)"
+  ]
+}
+

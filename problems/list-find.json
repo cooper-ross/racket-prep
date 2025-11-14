@@ -1,0 +1,38 @@
+{
+  "id": "list-find",
+  "title": "list-find",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "lists",
+  "description": "Write a function `list-find` that takes a list and a value, and returns the first element in the list that equals the value. If the value is not found, return false.",
+  "examples": [
+    {
+      "input": "(list-find (list 1 2 3 4 5) 3)",
+      "output": "3",
+      "explanation": "3 is found in the list"
+    },
+    {
+      "input": "(list-find (list 1 2 3 4 5) 6)",
+      "output": "false",
+      "explanation": "6 is not in the list"
+    },
+    {
+      "input": "(list-find empty 5)",
+      "output": "false",
+      "explanation": "Value not found in empty list"
+    }
+  ],
+  "starterCode": "(define (list-find lst val))\n\n(list-find (list 1 2 3 4 5) 3)\n(list-find (list 1 2 3 4 5) 6)\n(list-find empty 5)",
+  "hiddenCases": [
+    "(check-expect (list-find (list 1 2 3 4 5) 3) 3)",
+    "(check-expect (list-find (list 1 2 3 4 5) 6) false)",
+    "(check-expect (list-find empty 5) false)",
+    "(check-expect (list-find (list 1 2 3) 1) 1)",
+    "(check-expect (list-find (list 'a 'b 'c) 'b) 'b)",
+    "(check-expect (list-find (list 1 2 3) 4) false)",
+    "(check-expect (list-find (list 10 20 30) 20) 20)",
+    "(check-expect (list-find (list 5 4 3 2 1) 5) 5)",
+    "(check-expect (list-find (list 'x 'y 'z) 'w) false)",
+    "(check-expect (list-find (list 100 200 300) 400) false)"
+  ]
+}

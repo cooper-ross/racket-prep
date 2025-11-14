@@ -1,0 +1,39 @@
+{
+  "id": "min-two",
+  "title": "min-two",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "recursion",
+  "description": "Write a function `min-two` that takes two numbers and returns the smaller of the two.",
+  "examples": [
+    {
+      "input": "(min-two 5 3)",
+      "output": "3",
+      "explanation": "3 is smaller than 5"
+    },
+    {
+      "input": "(min-two 10 20)",
+      "output": "10",
+      "explanation": "10 is smaller than 20"
+    },
+    {
+      "input": "(min-two 7 7)",
+      "output": "7",
+      "explanation": "Both are equal, return either one"
+    }
+  ],
+  "starterCode": "(define (min-two a b))\n\n(min-two 5 3)\n(min-two 10 20)\n(min-two 7 7)",
+  "hiddenCases": [
+    "(check-expect (min-two 5 3) 3)",
+    "(check-expect (min-two 3 5) 3)",
+    "(check-expect (min-two 10 20) 10)",
+    "(check-expect (min-two 20 10) 10)",
+    "(check-expect (min-two 7 7) 7)",
+    "(check-expect (min-two 0 0) 0)",
+    "(check-expect (min-two -5 -3) -5)",
+    "(check-expect (min-two -10 5) -10)",
+    "(check-expect (min-two 100 99) 99)",
+    "(check-expect (min-two 1 1000) 1)"
+  ]
+}
+

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Practice programming problems with Racket, even on your phone!">
+    <title>Racket Prep</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
+    <link rel="apple-touch-icon" href="/icons/favicon.svg">
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="/vendor/codemirror/codemirror.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/editor.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Racket Prep</h1>
+        <div class="header-actions">
+            <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">Dark</button>
+            <a href="/index.html" class="header-link">Back</a>
+        </div>
+    </div>
+
+    <!-- Mobile Tab Navigation (hidden on desktop) -->
+    <div class="mobile-tabs">
+        <button class="mobile-tab active" data-panel="left">Problem</button>
+        <button class="mobile-tab" data-panel="right">Editor</button>
+    </div>
+
+    <div class="split-container">
+        <!-- Left Panel: Problem Display -->
+        <div class="left-panel panel-content active">
+            <div id="problem-display" class="problem-content">
+                <p>Select a problem from the index page to get started.</p>
+            </div>
+        </div>
+
+        <!-- Draggable Divider -->
+        <div class="divider" id="divider"></div>
+
+        <!-- Right Panel: Editor and Console -->
+        <div class="right-panel panel-content">
+            <div class="controls">
+                <button class="btn btn-run" onclick="runCode()">Run</button>
+                <button class="btn btn-clear" onclick="clearOutput()">Clear Output</button>
+                <span id="status-message"></span>
+            </div>
+
+            <div class="editor-container">
+                <textarea id="code-editor" style="display: none;"></textarea>
+                <div class="CodeMirror cm-s-default">
+                    <div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 6px; left: 27px;">
+                        <textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0"
+                            style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none; font-size: 4px;"></textarea>
+                    </div>
+                    <div class="CodeMirror-hscrollbar" style="left: 21px;">
+                        <div style="height: 1px; width: 0px;"></div>
+                    </div>
+                    <div class="CodeMirror-vscrollbar">
+                        <div style="width: 1px; height: 0px;"></div>
+                    </div>
+                    <div class="CodeMirror-scrollbar-filler"></div>
+                    <div class="CodeMirror-gutter-filler"></div>
+                    <div class="CodeMirror-scroll" tabindex="-1">
+                        <div class="CodeMirror-sizer"
+                            style="min-width: 44.6979px; margin-left: 21px; min-height: 22px;">
+                            <div style="position: relative; top: 0px;">
+                                <div class="CodeMirror-lines">
+                                    <div style="position: relative; outline: none;">
+                                        <div class="CodeMirror-measure"></div>
+                                        <div style="position: relative; z-index: 1; display: none;"></div>
+                                        <div class="CodeMirror-code">
+                                            <div style="position: relative;">
+                                                <div class="CodeMirror-gutter-wrapper"
+                                                    style="position: absolute; left: -21px;">
+                                                    <div class="CodeMirror-linenumber CodeMirror-gutter-elt"
+                                                        style="left: 0px; width: 12px;">1</div>
+                                                </div>
+                                                <pre>&nbsp;</pre>
+                                            </div>
+                                        </div>
+                                        <div class="CodeMirror-cursor"
+                                            style="left: 4px; top: 0px; height: 14px; visibility: hidden;">&nbsp;</div>
+                                        <div class="CodeMirror-cursor CodeMirror-secondarycursor"
+                                            style="display: none; visibility: hidden;">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: absolute; height: 30px; width: 1px; top: 22px;"></div>
+                        <div class="CodeMirror-gutters" style="height: 538px;">
+                            <div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 20px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-container">
+                <div class="output-header">Console</div>
+                <div id="output" class="output-console">
+                    <div class="output-info">Ready to run code.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vendor JavaScript -->
+    <script src="/vendor/codemirror/codemirror.js"></script>
+    <script src="/vendor/codemirror/matchbrackets.js"></script>
+    <script src="/vendor/codemirror/scheme.js"></script>
+    <script src="/vendor/biwascheme-min.js"></script>
+    <script src="/vendor/marked.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="/js/theme.js"></script>
+    <script src="/js/racket-compat.js"></script>
+    <script src="/js/controller.js"></script>
+    <script src="/js/editor.js"></script>
+    <script src="/js/interpreter.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "id": "abs",
+  "title": "abs",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "recursion",
+  "description": "Write a function `abs` that takes a number and returns its absolute value (the number without its sign).",
+  "examples": [
+    {
+      "input": "(abs -5)",
+      "output": "5",
+      "explanation": "The absolute value of -5 is 5"
+    },
+    {
+      "input": "(abs 3)",
+      "output": "3",
+      "explanation": "The absolute value of 3 is 3"
+    },
+    {
+      "input": "(abs 0)",
+      "output": "0",
+      "explanation": "The absolute value of 0 is 0"
+    }
+  ],
+  "starterCode": "(define (abs n))\n\n(abs -5)\n(abs 3)\n(abs 0)",
+  "hiddenCases": [
+    "(check-expect (abs 0) 0)",
+    "(check-expect (abs 5) 5)",
+    "(check-expect (abs -5) 5)",
+    "(check-expect (abs 10) 10)",
+    "(check-expect (abs -10) 10)",
+    "(check-expect (abs 1) 1)",
+    "(check-expect (abs -1) 1)",
+    "(check-expect (abs 100) 100)",
+    "(check-expect (abs -100) 100)",
+    "(check-expect (abs -999) 999)"
+  ]
+}
+

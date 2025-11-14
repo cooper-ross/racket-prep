@@ -1,0 +1,38 @@
+{
+  "id": "median",
+  "title": "median",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "recursion",
+  "description": "Write a function `median` that takes three numbers and returns the median (middle value) of the three numbers.",
+  "examples": [
+    {
+      "input": "(median 1 5 3)",
+      "output": "3",
+      "explanation": "The middle value when sorted is 3"
+    },
+    {
+      "input": "(median 10 2 8)",
+      "output": "8",
+      "explanation": "When sorted as 2, 8, 10, the middle value is 8"
+    },
+    {
+      "input": "(median 5 5 5)",
+      "output": "5",
+      "explanation": "All values are equal, median is 5"
+    }
+  ],
+  "starterCode": "(define (median a b c))\n\n(median 1 5 3)\n(median 10 2 8)\n(median 5 5 5)",
+  "hiddenCases": [
+    "(check-expect (median 1 5 3) 3)",
+    "(check-expect (median 10 2 8) 8)",
+    "(check-expect (median 5 5 5) 5)",
+    "(check-expect (median 1 2 3) 2)",
+    "(check-expect (median 3 2 1) 2)",
+    "(check-expect (median 100 50 75) 75)",
+    "(check-expect (median -1 0 1) 0)",
+    "(check-expect (median 7 3 9) 7)",
+    "(check-expect (median 4 6 2) 4)",
+    "(check-expect (median 15 10 20) 15)"
+  ]
+}

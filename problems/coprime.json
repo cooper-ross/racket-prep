@@ -1,0 +1,38 @@
+{
+  "id": "coprime",
+  "title": "coprime?",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "recursion",
+  "description": "Write a function `coprime?` that takes two positive integers m and n and returns true if they are coprime (their GCD is 1), and false otherwise.",
+  "examples": [
+    {
+      "input": "(coprime? 7 5)",
+      "output": "true",
+      "explanation": "7 and 5 are coprime since their GCD is 1"
+    },
+    {
+      "input": "(coprime? 12 18)",
+      "output": "false",
+      "explanation": "12 and 18 are not coprime since their GCD is 6"
+    },
+    {
+      "input": "(coprime? 24 35)",
+      "output": "true",
+      "explanation": "24 and 35 are coprime since their GCD is 1"
+    }
+  ],
+  "starterCode": "(define (coprime? m n))\n\n(coprime? 7 5)\n(coprime? 12 18)\n(coprime? 24 35)",
+  "hiddenCases": [
+    "(check-expect (coprime? 1 1) true)",
+    "(check-expect (coprime? 7 5) true)",
+    "(check-expect (coprime? 12 18) false)",
+    "(check-expect (coprime? 24 35) true)",
+    "(check-expect (coprime? 17 23) true)",
+    "(check-expect (coprime? 48 72) false)",
+    "(check-expect (coprime? 100 27) true)",
+    "(check-expect (coprime? 13 17) true)",
+    "(check-expect (coprime? 54 25) true)",
+    "(check-expect (coprime? 81 35) true)"
+  ]
+}

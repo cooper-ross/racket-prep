@@ -1,0 +1,38 @@
+{
+  "id": "prime",
+  "title": "prime?",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "recursion",
+  "description": "Write a function `prime?` that takes a positive integer n and returns true if n is a prime number, and false otherwise.",
+  "examples": [
+    {
+      "input": "(prime? 7)",
+      "output": "true",
+      "explanation": "7 is a prime number"
+    },
+    {
+      "input": "(prime? 12)",
+      "output": "false",
+      "explanation": "12 is not prime since it is divisible by 2, 3, 4, and 6"
+    },
+    {
+      "input": "(prime? 17)",
+      "output": "true",
+      "explanation": "17 is a prime number"
+    }
+  ],
+  "starterCode": "(define (prime? n))\n\n(prime? 7)\n(prime? 12)\n(prime? 17)",
+  "hiddenCases": [
+    "(check-expect (prime? 1) false)",
+    "(check-expect (prime? 2) true)",
+    "(check-expect (prime? 3) true)",
+    "(check-expect (prime? 4) false)",
+    "(check-expect (prime? 5) true)",
+    "(check-expect (prime? 6) false)",
+    "(check-expect (prime? 7) true)",
+    "(check-expect (prime? 9) false)",
+    "(check-expect (prime? 11) true)",
+    "(check-expect (prime? 15) false)"
+  ]
+}

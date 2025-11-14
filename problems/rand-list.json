@@ -1,0 +1,33 @@
+{
+  "id": "rand-list",
+  "title": "rand-list",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "lists",
+  "description": "Write a function `rand-list` that takes a number n and returns a list of n random integers between 1 and 100.",
+  "examples": [
+    {
+      "input": "(rand-list 3)",
+      "output": "Examples: (list 42 17 89)",
+      "explanation": "Returns a list of 3 random numbers between 1 and 100"
+    },
+    {
+      "input": "(rand-list 0)",
+      "output": "empty",
+      "explanation": "n is 0, return empty list"
+    }
+  ],
+  "starterCode": "(define (rand-list n))\n\n(rand-list 3)\n(rand-list 0)",
+  "hiddenCases": [
+    "(check-expect (length (rand-list 0)) 0)",
+    "(check-expect (length (rand-list 1)) 1)",
+    "(check-expect (length (rand-list 5)) 5)",
+    "(check-expect (length (rand-list 10)) 10)",
+    "(check-expect (every? (lambda (x) (and (>= x 1) (<= x 100))) (rand-list 5)) true)",
+    "(check-expect (every? (lambda (x) (and (>= x 1) (<= x 100))) (rand-list 3)) true)",
+    "(check-expect (every? (lambda (x) (and (>= x 1) (<= x 100))) (rand-list 8)) true)",
+    "(check-expect (every? (lambda (x) (and (>= x 1) (<= x 100))) (rand-list 1)) true)",
+    "(check-expect (every? (lambda (x) (and (>= x 1) (<= x 100))) (rand-list 7)) true)",
+    "(check-expect (every? (lambda (x) (and (>= x 1) (<= x 100))) (rand-list 4)) true)"
+  ]
+}

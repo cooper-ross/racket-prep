@@ -1,0 +1,38 @@
+{
+  "id": "union",
+  "title": "union",
+  "difficulty": "medium",
+  "time": "10 minutes",
+  "category": "lists",
+  "description": "Write a function `union` that takes two lists and returns a new list containing all unique elements that appear in either list, preserving order of first occurrences.",
+  "examples": [
+    {
+      "input": "(union (list 1 2 3 4) (list 3 4 5 6))",
+      "output": "(list 1 2 3 4 5 6)",
+      "explanation": "Combine both lists, removing duplicates"
+    },
+    {
+      "input": "(union (list 1 2 3) (list 4 5 6))",
+      "output": "(list 1 2 3 4 5 6)",
+      "explanation": "No common elements, concatenate lists"
+    },
+    {
+      "input": "(union (list 1 2 3) (list 1 2 3))",
+      "output": "(list 1 2 3)",
+      "explanation": "All elements are duplicates"
+    }
+  ],
+  "starterCode": "(define (union lst1 lst2))\n\n(union (list 1 2 3 4) (list 3 4 5 6))\n(union (list 1 2 3) (list 4 5 6))\n(union (list 1 2 3) (list 1 2 3))",
+  "hiddenCases": [
+    "(check-expect (union (list 1 2 3 4) (list 3 4 5 6)) (list 1 2 3 4 5 6))",
+    "(check-expect (union (list 1 2 3) (list 4 5 6)) (list 1 2 3 4 5 6))",
+    "(check-expect (union (list 1 2 3) (list 1 2 3)) (list 1 2 3))",
+    "(check-expect (union empty empty) empty)",
+    "(check-expect (union (list 1 2 3) empty) (list 1 2 3))",
+    "(check-expect (union empty (list 1 2 3)) (list 1 2 3))",
+    "(check-expect (union (list 'a 'b 'c) (list 'c 'd 'e)) (list 'a 'b 'c 'd 'e))",
+    "(check-expect (union (list 5 5 5) (list 5 5 5)) (list 5))",
+    "(check-expect (union (list 1 3 5 7) (list 2 4 6 8)) (list 1 3 5 7 2 4 6 8))",
+    "(check-expect (union (list 10 20 30) (list 15 20 25)) (list 10 20 30 15 25))"
+  ]
+}

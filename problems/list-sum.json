@@ -1,0 +1,39 @@
+{
+  "id": "list-sum",
+  "title": "list-sum",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "lists",
+  "description": "Write a function `list-sum` that takes a list of numbers and returns their sum.\n\nIf the list is empty, return 0.",
+  "examples": [
+    {
+      "input": "(list-sum (list 1 2 3 4 5))",
+      "output": "15",
+      "explanation": "1 + 2 + 3 + 4 + 5 = 15"
+    },
+    {
+      "input": "(list-sum empty)",
+      "output": "0",
+      "explanation": "Empty list sums to 0"
+    },
+    {
+      "input": "(list-sum (list 10 20))",
+      "output": "30",
+      "explanation": "10 + 20 = 30"
+    }
+  ],
+  "starterCode": "(define (list-sum lst))\n\n(list-sum (list 1 2 3 4 5))\n(list-sum empty)\n(list-sum (list 10 20))",
+  "hiddenCases": [
+    "(check-expect (list-sum (list 1 2 3 4 5)) 15)",
+    "(check-expect (list-sum empty) 0)",
+    "(check-expect (list-sum (list 10 20)) 30)",
+    "(check-expect (list-sum (list 10 20 30)) 60)",
+    "(check-expect (list-sum (list 10 20 30 40 50)) 150)",
+    "(check-expect (list-sum (list 1 2 3 4 5 6 7 8 9 10)) 55)",
+    "(check-expect (list-sum (list 10 -30 20 -10 40)) 30)",
+    "(check-expect (list-sum (list 100 200 300 400 500)) 1500)",
+    "(check-expect (list-sum (list 1000 2000 3000 4000 5000)) 15000)",
+    "(check-expect (list-sum (list 10000 20000 30000 40000 50000)) 150000)"
+  ]
+}
+

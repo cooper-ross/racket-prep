@@ -1,0 +1,39 @@
+{
+  "id": "max-two",
+  "title": "max-two",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "recursion",
+  "description": "Write a function `max-two` that takes two numbers and returns the larger of the two.",
+  "examples": [
+    {
+      "input": "(max-two 5 3)",
+      "output": "5",
+      "explanation": "5 is larger than 3"
+    },
+    {
+      "input": "(max-two 10 20)",
+      "output": "20",
+      "explanation": "20 is larger than 10"
+    },
+    {
+      "input": "(max-two 7 7)",
+      "output": "7",
+      "explanation": "Both are equal, return either one"
+    }
+  ],
+  "starterCode": "(define (max-two a b))\n\n(max-two 5 3)\n(max-two 10 20)\n(max-two 7 7)",
+  "hiddenCases": [
+    "(check-expect (max-two 5 3) 5)",
+    "(check-expect (max-two 3 5) 5)",
+    "(check-expect (max-two 10 20) 20)",
+    "(check-expect (max-two 20 10) 20)",
+    "(check-expect (max-two 7 7) 7)",
+    "(check-expect (max-two 0 0) 0)",
+    "(check-expect (max-two -5 -3) -3)",
+    "(check-expect (max-two -10 5) 5)",
+    "(check-expect (max-two 100 99) 100)",
+    "(check-expect (max-two 1 1000) 1000)"
+  ]
+}
+

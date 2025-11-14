@@ -1,0 +1,38 @@
+{
+  "id": "bst-size",
+  "title": "bst-size",
+  "difficulty": "easy",
+  "time": "5 minutes",
+  "category": "trees",
+  "description": "Write a function `bst-size` that takes a binary search tree and returns the number of nodes in the tree. An empty tree has size 0.",
+  "examples": [
+    {
+      "input": "(bst-size empty)",
+      "output": "0",
+      "explanation": "An empty tree has size 0"
+    },
+    {
+      "input": "(bst-size (make-node empty empty 5))",
+      "output": "1",
+      "explanation": "A single node tree has size 1"
+    },
+    {
+      "input": "(bst-size (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+      "output": "3",
+      "explanation": "Tree with root and two children has size 3"
+    }
+  ],
+  "starterCode": "(define-struct node (left right key))\n\n(define (bst-size t))\n\n(bst-size empty)\n(bst-size (make-node empty empty 5))\n(bst-size (make-node (make-node empty empty 2) (make-node empty empty 8) 5))",
+  "hiddenCases": [
+    "(check-expect (bst-size empty) 0)",
+    "(check-expect (bst-size (make-node empty empty 5)) 1)",
+    "(check-expect (bst-size (make-node (make-node empty empty 2) (make-node empty empty 8) 5)) 3)",
+    "(check-expect (bst-size (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5)) 7)",
+    "(check-expect (bst-size (make-node empty (make-node empty (make-node empty empty 10) 8) 5)) 3)",
+    "(check-expect (bst-size (make-node (make-node empty empty 2) empty 5)) 2)",
+    "(check-expect (bst-size (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) (make-node empty (make-node empty empty 15) 12) 10)) 6)",
+    "(check-expect (bst-size (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) empty 10)) 4)",
+    "(check-expect (bst-size (make-node empty (make-node (make-node (make-node empty empty 13) empty 17) (make-node empty empty 25) 20) 15)) 5)",
+    "(check-expect (bst-size (make-node (make-node (make-node (make-node (make-node empty empty 1) empty 4) empty 6) empty 9) (make-node (make-node empty empty 14) (make-node empty empty 18) 16) 12)) 8)"
+  ]
+}

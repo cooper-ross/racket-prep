@@ -1,0 +1,38 @@
+{
+  "id": "factorial",
+  "title": "factorial",
+  "difficulty": "easy",
+  "time": "1 minute",
+  "category": "recursion",
+  "description": "Write a function `factorial` that takes a non-negative integer n and returns n! (n factorial).",
+  "examples": [
+    {
+      "input": "(factorial 5)",
+      "output": "120",
+      "explanation": "5! = 5 × 4 × 3 × 2 × 1 = 120"
+    },
+    {
+      "input": "(factorial 0)",
+      "output": "1",
+      "explanation": "0! is defined as 1"
+    },
+    {
+      "input": "(factorial 3)",
+      "output": "6",
+      "explanation": "3! = 3 × 2 × 1 = 6"
+    }
+  ],
+  "starterCode": "(define (factorial n))\n\n(factorial 5)\n(factorial 0)\n(factorial 3)",
+  "hiddenCases": [
+    "(check-expect (factorial 0) 1)",
+    "(check-expect (factorial 1) 1)",
+    "(check-expect (factorial 2) 2)",
+    "(check-expect (factorial 3) 6)",
+    "(check-expect (factorial 4) 24)",
+    "(check-expect (factorial 5) 120)",
+    "(check-expect (factorial 6) 720)",
+    "(check-expect (factorial 8) 40320)",
+    "(check-expect (factorial 9) 362880)",
+    "(check-expect (factorial 20) 2432902008176640000)"
+  ]
+}
