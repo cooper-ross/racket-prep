@@ -1,0 +1,451 @@
+{
+  "id": "135-1",
+  "title": "CS 135 Final",
+  "time": "3 hours",
+  "totalPoints": 75,
+  "description": "Full practice exam covering all course content for CS 135. Recursion, lists, simple abstract data, Big-O, trees.",
+  "content": [
+    {
+      "type": "text",
+      "content": "### General Instructions\n- Assume the language of choice for all questions is Intermediate Student with Lambda, unless it relates to lambda calculus, in which case you can safely assume it is either theoretical or Lazy Racket.\n- For full marks, keep everything in most simplifed form, and use standard notations only. Examples: `(list 1 2 3)` is better than `'(1 2 3)`, and `true`/`false` is better than `#t`/`#f`. Use your best judgement to determine when to use the simpler form.\n- In general, if a question is asking you to write a function that already exists in Racket, you should not use the original function name. For example, if a question asks you to write a function `my-filter` that does the same thing as `filter`, you should not use the name `filter` in your implementation.\n- While I'm legally not allowed to pull questions from practice exams, I've written my own questions that cover the same material, and are designed to be similar in difficulty and style. At the very least, this exam should give you a good idea of what to expect on the actual exam.\n- Because you are writing code with a keyboard and highlighting, the quality expected is much higher than when you are writing by hand, so the grading is done by actually *running* your code. If there is a syntax error, you do not get *any* marks."
+    },
+    {
+      "type": "section",
+      "title": "Fill in the following blanks with the most appropriate words, numbers, or expressions:",
+      "content": [
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Executing the code `(+ 1 2 3 4 5)` will produce:",
+          "verification": "const t=s=>(/\\b15\\b/).test(s.trim())?1:0;",
+          "explanation": "1 + 2 + 3 + 4 + 5 = 15."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Executing the code `(+ (* 2 2) 2)` will produce:",
+          "verification": "const t=s=>(/\\b6\\b/).test(s.trim())?1:0;",
+          "explanation": "`(* 2 2) = 4` and `(+ 4 2) = 6`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Executing the code `(+ (* 3 2) (sub1 10))` will produce:",
+          "verification": "const t=s=>(/\\b15\\b/).test(s.trim())?1:0;",
+          "explanation": "`(* 3 2) = 6` and `(sub1 10) = 9`, so `(+ 6 9) = 15`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Executing the code `(and (positive? 5) (odd? 5) (not (zero? 5)))` will produce:",
+          "verification": "const t=s=>(/^\\s*true\\s*$/i).test(s.trim())?1:0;",
+          "explanation": "All conditions are true for 5, so the expression evaluates to `true`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Executing the code `(rest (rest (list 'a 2 \"hi\" true)))` will produce:",
+          "verification": "const t=s=>(/hi/.test(s)&&/true/.test(s))?1:0;",
+          "explanation": "Removing two elements from `(list 'a 2 \"hi\" true)` yields `(list \"hi\" true)`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "The function that processes each item of a list exactly once is what time? (O(1), O(n), O(n^2), etc.)",
+          "verification": "const t=s=>(/O\\(n\\)/i.test(s.trim()))?1:0;",
+          "explanation": "One traversal of $n$ elements is $O(n)$ time."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Is n + 100 O(n^2)?",
+          "verification": "const t=s=>(/^\\s*true\\s*$/i.test(s.trim()))?1:0;",
+          "explanation": "Any linear function is $O(n^2)$, since $n^2$ eventually dominates $n$."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "The most appropriate contract for the built-in function `andmap` is:",
+          "verification": "const t = s => ((/\\s*andmap\\s*:\\s*\\(\\s*([A-Za-z])\\s*->\\s*(?:bool|Bool|boolean|Boolean)\\s*\\)\\s*\\(\\s*listof\\s*\\1\\s*\\)\\s*->\\s*(?:bool|Bool|boolean|Boolean)\\s*$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The function `andmap` takes a predicate function and a list, applies the predicate to every element, and returns true only if the predicate returns true for all elements. Therefore, its first argument must be a function from some type `X` to `Bool`, its second argument a list of `X` (the same type), and its result a `Bool`."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Write the following functions using abstract list functions only:",
+      "content": [
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write a function `double-all` that consumes a list of numbers and produces a list of those numbers doubled.",
+          "starterCode": "(define (double-all lst))",
+          "hiddenCases": [
+            "(check-expect (double-all (list 1 2 3)) (list 2 4 6))",
+            "(check-expect (double-all empty) empty)",
+            "(check-expect (double-all (list -1 0 4)) (list -2 0 8))"
+          ],
+          "explanation": "Use `map` or `foldl` (for tail recursion) to multiply each element by 2."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write a function `count-pos` that consumes a list of numbers and counts how many are positive.",
+          "starterCode": "(define (count-pos lst))",
+          "hiddenCases": [
+            "(check-expect (count-pos empty) 0)",
+            "(check-expect (count-pos (list -1 0 2 5)) 2)",
+            "(check-expect (count-pos (list 10 20 30)) 3)"
+          ],
+          "explanation": "Count elements greater than zero with `foldl` and a predicate. `foldr` also works, but is not tail recursive."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write a function `keep-symbols` that consumes a list and produces a list containing only the symbols.",
+          "starterCode": "(define (keep-symbols lst))",
+          "hiddenCases": [
+            "(check-expect (keep-symbols (list 'a 1 'b \"hi\")) (list 'a 'b))",
+            "(check-expect (keep-symbols empty) empty)",
+            "(check-expect (keep-symbols (list 1 2 3)) empty)"
+          ],
+          "explanation": "Use `foldr` and `symbol?` to filter symbols out, or use `filter` and `symbol?`."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write a function `chop` that removes the last element from a non-empty list.",
+          "starterCode": "(define (chop lst))",
+          "hiddenCases": [
+            "(check-expect (chop (list 1 2 3)) (list 1 2))",
+            "(check-expect (chop (list 'a 'b 'c)) (list 'a 'b))",
+            "(check-expect (chop (list 10 20 30)) (list 10 20))"
+          ],
+          "explanation": "Using abstract list functions only, an easy way is to use `reverse` and `rest` to remove the first element from the reversed list, then `reverse` the result back to the original order."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write `rotate-left` which consumes a non-empty list and produces a list where the first element moves to the end.",
+          "starterCode": "(define (rotate-left lst))",
+          "hiddenCases": [
+            "(check-expect (rotate-left (list 1 2 3)) (list 2 3 1))",
+            "(check-expect (rotate-left (list 'a)) (list 'a))",
+            "(check-expect (rotate-left (list 'x 'y 'z)) (list 'y 'z 'x))"
+          ],
+          "explanation": "Take `(rest lst)` and append `(list (first lst))`."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "A group of raccoons has created a complicated system to organize the snacks they have stolen from picnics. They were going to use a normal list like sensible animals, but one of them is a self-proclaimed mathematician, and convinces them to store everything in a Binary Snack Tree (BST) instead. The BST is defined as:",
+      "content": [
+        {
+          "type": "code",
+          "content": "(define-struct snack (left right name calories crunchiness))"
+        },
+        {
+          "type": "text",
+          "content": "Each node represents a snack. The `name` field is a string and is the key (compared using `string<?`, a comparison function that returns true if the first string is less than the second string based on alphabetical order). The `calories` field is a natural number, and `crunchiness` is a natural number from 0 to 10 measuring how crunchy the snack is (0 = soggy, 10 = dangerously crunchy)."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Define a new snack `legendary-chip` for the snack named \"Legendary Chip\" with 300 calories and crunchiness 10:",
+          "starterCode": "(define-struct snack (left right name calories crunchiness))\n\n(define legendary-chip)",
+          "hiddenCases": [
+            "(check-expect (snack-name legendary-chip) \"Legendary Chip\")",
+            "(check-expect (snack-calories legendary-chip) 300)",
+            "(check-expect (snack-crunchiness legendary-chip) 10)",
+            "(check-expect (snack-left legendary-chip) empty)",
+            "(check-expect (snack-right legendary-chip) empty)"
+          ],
+          "explanation": "Just create a snack node with empty left and right fields. If you fail this one you might be cooked."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `snack-find` that takes a snack name and a BST of snacks, and returns a list containing the snack's name, calories, and crunchiness or false if the snack is not found:",
+          "starterCode": "(define-struct snack (left right name calories crunchiness))\n\n(define (snack-find name t))",
+          "hiddenCases": [
+            "(check-expect (snack-find \"Legendary Chip\" empty) false)",
+            "(check-expect (snack-find \"Pretzel\" (make-snack empty empty \"Pretzel\" 200 6)) (list \"Pretzel\" 200 6))",
+            "(check-expect (snack-find \"Cookie\" (make-snack (make-snack empty empty \"Pretzel\" 200 6) empty \"Legendary Chip\" 300 10)) false)"
+          ],
+          "explanation": "Compare the target name with the current node's name. Search left if the target is smaller, right if larger, and if equal, return the details."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write `snack-insert`, which inserts a snack node into the BST while maintaining order. If a snack with the same name already exists, return the original tree unchanged:",
+          "starterCode": "(define-struct snack (left right name calories crunchiness))\n\n(define (snack-insert sn t))",
+          "hiddenCases": [
+            "(check-expect (snack-insert (make-snack empty empty \"Pretzel\" 200 6) empty)\n              (make-snack empty empty \"Pretzel\" 200 6))",
+            "(check-expect (snack-insert (make-snack empty empty \"Cookie\" 150 4)\n              (make-snack empty empty \"Pretzel\" 200 6))\n              (make-snack (make-snack empty empty \"Cookie\" 150 4) empty \"Pretzel\" 200 6))",
+            "(check-expect (snack-insert (make-snack empty empty \"Pretzel\" 500 10)\n              (make-snack empty empty \"Pretzel\" 200 6))\n              (make-snack empty empty \"Pretzel\" 200 6))"
+          ],
+          "explanation": "Compare names; insert left or right. If duplicate, no change."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "The National History Museum stores many fragile artifacts. Researchers may request access, but strict rules determine who may enter the artifact vaults. The data structures are defined as:",
+      "content": [
+        {
+          "type": "code",
+          "content": "(define-struct researcher (name rank experience))\n(define-struct artifact (name fragility rarity))"
+        },
+        {
+          "type": "text",
+          "content": "A researcher has a `name` (string), `rank` (string), and `experience` (natural number representing years). An artifact has a `name` (string), `fragility` (string: either \"extremely-fragile\" or \"normal\"), and `rarity` (string: either \"rare\" or \"common\")."
+        },
+        {
+          "type": "text",
+          "content": "**Access Rules:**\n- Researchers whose rank is \"chief-curator\" or \"director\" always receive access.\n- If the artifact is labeled \"extremely-fragile\", only researchers with 10+ years of experience may enter.\n- If the artifact is not extremely-fragile but is rare, access is granted only if the researcher has at least 5 years of experience.\n- If the artifact is common and the researcher has any amount of experience, they are granted access."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `vault-access?` using only `cond` (no `and`, `or`, `not`). The function consumes a researcher and an artifact, and returns true if access should be granted:",
+          "starterCode": "(define-struct researcher (name rank experience))\n(define-struct artifact (name fragility rarity))\n\n(define (vault-access? r a))",
+          "hiddenCases": [
+            "(check-expect (vault-access? (make-researcher \"Alice\" \"chief-curator\" 5) (make-artifact \"Vase\" \"extremely-fragile\" \"rare\")) true)",
+            "(check-expect (vault-access? (make-researcher \"Bob\" \"director\" 2) (make-artifact \"Tablet\" \"normal\" \"rare\")) true)",
+            "(check-expect (vault-access? (make-researcher \"Charlie\" \"assistant\" 12) (make-artifact \"Sculpture\" \"extremely-fragile\" \"rare\")) true)",
+            "(check-expect (vault-access? (make-researcher \"Diana\" \"assistant\" 8) (make-artifact \"Painting\" \"extremely-fragile\" \"common\")) false)",
+            "(check-expect (vault-access? (make-researcher \"Eve\" \"assistant\" 6) (make-artifact \"Coin\" \"normal\" \"rare\")) true)",
+            "(check-expect (vault-access? (make-researcher \"Frank\" \"assistant\" 3) (make-artifact \"Map\" \"normal\" \"rare\")) false)",
+            "(check-expect (vault-access? (make-researcher \"Grace\" \"assistant\" 1) (make-artifact \"Book\" \"normal\" \"common\")) true)"
+          ],
+          "explanation": "Use `cond` with `string=?` to check rank and fragility/rarity conditions. Each condition should check all necessary parts without using boolean operators."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `vault-access?` without using `cond`. You may use boolean operators (`and`, `or`, `not`) and if-expressions:",
+          "starterCode": "(define-struct researcher (name rank experience))\n(define-struct artifact (name fragility rarity))\n\n(define (vault-access? r a))",
+          "hiddenCases": [
+            "(check-expect (vault-access? (make-researcher \"Alice\" \"chief-curator\" 5) (make-artifact \"Vase\" \"extremely-fragile\" \"rare\")) true)",
+            "(check-expect (vault-access? (make-researcher \"Bob\" \"director\" 2) (make-artifact \"Tablet\" \"normal\" \"rare\")) true)",
+            "(check-expect (vault-access? (make-researcher \"Charlie\" \"assistant\" 12) (make-artifact \"Sculpture\" \"extremely-fragile\" \"rare\")) true)",
+            "(check-expect (vault-access? (make-researcher \"Diana\" \"assistant\" 8) (make-artifact \"Painting\" \"extremely-fragile\" \"common\")) false)",
+            "(check-expect (vault-access? (make-researcher \"Eve\" \"assistant\" 6) (make-artifact \"Coin\" \"normal\" \"rare\")) true)",
+            "(check-expect (vault-access? (make-researcher \"Frank\" \"assistant\" 3) (make-artifact \"Map\" \"normal\" \"rare\")) false)",
+            "(check-expect (vault-access? (make-researcher \"Grace\" \"assistant\" 1) (make-artifact \"Book\" \"normal\" \"common\")) true)"
+          ],
+          "explanation": "Combine conditions with `or` and `and`. For example: `(or (string=? (researcher-rank r) \"chief-curator\") (string=? (researcher-rank r) \"director\") ...)` handles the high-rank case, then use nested boolean logic for other cases."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following and then fill in the blanks:",
+      "description": "For the expression below, show the **first** and **second** substitution steps, and then give the **final value**. If the evaluation would produce an error, simply write `error` instead. Note the following function:",
+      "content": [
+        {
+          "type": "code",
+          "content": "(first (list (+ 1 2) (- 5 3)))"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "1st step:",
+          "verification": "const t = s => ((/^\\(\\s*first\\s*\\(\\s*list\\s+3\\s+\\(\\s*-\\s*5\\s*3\\s*\\)\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The first substitution step evaluates `(+ 1 2)` to `3`, giving `(first (list 3 (- 5 3)))`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "2nd step:",
+          "verification": "const t = s => ((/^\\(\\s*first\\s*\\(\\s*list\\s+3\\s+2\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The second substitution step evaluates `(- 5 3)` to `2`, giving `(first (list 3 2))`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Final step:",
+          "verification": "const t = s => s.trim() === '3' ? 1 : 0;",
+          "explanation": "The final value is `3`, because `(first (list 3 2))` returns the first element."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following and then fill in the blanks:",
+      "description": "For the expression below, show the **first** and **second** substitution steps, and then give the **final value**. Note the following function:",
+      "content": [
+        {
+          "type": "code",
+          "content": "(define (count-down n)\n  (if (zero? n)\n      empty\n      (cons n (count-down (sub1 n)))))\n\n(count-down (add1 1))"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "1st step:",
+          "verification": "const t = s => ((/^\\(\\s*count-down\\s+2\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The first substitution step evaluates `(add1 1)` to `2`, giving `(count-down 2)`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "2nd step:",
+          "verification": "const t = s => ((/^\\(\\s*if\\s*\\(\\s*zero\\?\\s+2\\s*\\)\\s*empty\\s*\\(\\s*cons\\s*2\\s*\\(\\s*count-down\\s*\\(\\s*sub1\\s+2\\s*\\)\\s*\\)\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The second step expands the function without simplifying `(sub1 2)`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Final step:",
+          "verification": "const t = s => (s.trim() === '(list 2 1)' ? 1 : 0);",
+          "explanation": "The final value is `(list 2 1)`, since counting down from 2 gives `(cons 2 (cons 1 empty))`."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following and then fill in the blanks:",
+      "description": "For the expression below, show the **first** and **second** substitution steps, and then give the **final value**. If the evaluation would produce an error, write `error` instead.",
+      "content": [
+        {
+          "type": "code",
+          "content": "(length (rest (list 4 (add1 2) 9)))"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "1st step:",
+          "verification": "const t = s => ((/^\\(\\s*length\\s*\\(\\s*rest\\s*\\(\\s*list\\s+4\\s+3\\s+9\\s*\\)\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The first substitution step evaluates `(add1 2)` to `3`, producing `(length (rest (list 4 3 9)))`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "2nd step:",
+          "verification": "const t = s => ((/^\\(\\s*length\\s*\\(\\s*list\\s+3\\s+9\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The second substitution step evaluates `(rest (list 4 3 9))` to `(list 3 9)`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Final step:",
+          "verification": "const t = s => s.trim() === '2' ? 1 : 0;",
+          "explanation": "The final value is `2`, because `(length (list 3 9))` counts the two elements."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "Imagine a meteorologist sitting at their desk late in the evening, reviewing a day's worth of temperature readings collected from a remote weather station. Throughout the day, sensors recorded the temperature at regular intervals, and now the meteorologist needs to summarize this data. Rather than storing every single reading in their final report, they decide to distill the day down to its extremes: the coldest moment and the warmest moment. They choose Racket, for some inexplicable reason. The function must take a non-empty list of temperatures and produce a compact two-value summary containing the lowest temperature followed by the highest.",
+      "content": [
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `temperature-report`:",
+          "starterCode": "(define (temperature-report temps))",
+          "hiddenCases": [
+            "(check-expect (temperature-report (list 72 68 75 70)) (list 68 75))",
+            "(check-expect (temperature-report (list 50)) (list 50 50))",
+            "(check-expect (temperature-report (list 32 45 28 50 35)) (list 28 50))",
+            "(check-expect (temperature-report (list -10 -5 -20 0)) (list -20 0))",
+            "(check-expect (temperature-report (list 100 98 102 99)) (list 98 102))"
+          ],
+          "explanation": "Use `foldl` or helper functions to find the minimum and maximum values in the list, then return them as a list with `(list min-temp max-temp)`. Alternatively, you can use built-in functions like `min` and `max` with `apply`, or recursively traverse the list to track both the lowest and highest values."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "Given a non-empty list of integers, produce a two-element list where the first element is the count of even numbers in the list and the second element is the count of odd numbers.",
+      "content": [
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `count-even-odd`:",
+          "starterCode": "(define (count-even-odd nums))",
+          "hiddenCases": [
+            "(check-expect (count-even-odd (list 1 2 3 4)) (list 2 2))",
+            "(check-expect (count-even-odd (list 2 4 6)) (list 3 0))",
+            "(check-expect (count-even-odd (list 1 3 5 7)) (list 0 4))"
+          ],
+          "explanation": "You can traverse the list recursively or with `foldl`, maintaining two counters that track how many elements are even and how many are odd. Return them in a list as `(list evens odds)`."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "The term collinear refers to three (or more) points that lie on a single straight line, which means that the line connecting any two of the points also passes through the third point. Write a function that takes six numbers representing three points in the plane and determines whether the points are collinear. Return true if they are collinear and false otherwise.",
+      "content": [
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `collinear`:",
+          "starterCode": "(define (collinear x1 y1 x2 y2 x3 y3))",
+          "hiddenCases": [
+            "(check-expect (collinear 0 0 1 1 2 2) true)",
+            "(check-expect (collinear 0 0 0 1 0 2) true)",
+            "(check-expect (collinear 1 2 3 4 5 7) false)"
+          ],
+          "explanation": "A common method is to compare slopes: three points are collinear when the slope from the first to the second equals the slope from the first to the third. You can avoid division by checking whether the cross-product (x2 - x1)*(y3 - y1) equals (y2 - y1)*(x3 - x1)."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "A prime number is a positive integer that has no positive integer divisors other than 1 and itself. Write a function that determines whether a given positive integer is prime. The function should return true for prime numbers and false for composite number (and 1).",
+      "content": [
+        {
+          "type": "question",
+          "points": 6,
+          "prompt": "code",
+          "content": "Write the function `prime?`:",
+          "starterCode": "(define (prime? n))",
+          "hiddenCases": [
+            "(check-expect (prime? 1) false)",
+            "(check-expect (prime? 2) true)",
+            "(check-expect (prime? 6) false)",
+            "(check-expect (prime? 7) true)"
+          ],
+          "explanation": "A standard approach is to test whether any integer from 2 up to the square root of n divides n evenly. If none do, n is prime. Handle 1 as a special case since it is not considered prime."
+        }
+      ]
+    }
+  ]
+}

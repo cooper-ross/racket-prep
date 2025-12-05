@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam - Racket Prep</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
+    <link rel="apple-touch-icon" href="/icons/favicon.svg">
+    
+    <!-- Inline Theme-->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/exam.css">
+    <link rel="stylesheet" href="/css/editor.css">
+    
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="/vendor/codemirror/codemirror.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Racket Prep</h1>
+        <div class="header-actions">
+            <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">Dark</button>
+            <a href="/index.html" class="header-link">Back</a>
+        </div>
+    </div>
+    
+    <div class="exam-container">
+        <div class="exam-header">
+            <h1 class="exam-title" id="exam-title">Loading...</h1>
+            <div class="exam-meta-bar">
+                <div class="exam-meta-info">
+                    <span class="meta-label">Duration:</span>
+                    <span class="meta-value" id="exam-time">-</span>
+                </div>
+                <div class="exam-meta-info">
+                    <span class="meta-label">Total Points:</span>
+                    <span class="meta-value" id="exam-points">-</span>
+                </div>
+            </div>
+            <div class="exam-description" id="exam-description"></div>
+        </div>
+        
+        <div class="exam-content" id="exam-content">
+            <div class="loading">Loading exam...</div>
+        </div>
+    </div>
+    
+    <!-- CodeMirror JS -->
+    <script src="/vendor/codemirror/codemirror.js" defer></script>
+    <script src="/vendor/codemirror/scheme.js" defer></script>
+    <script src="/vendor/codemirror/matchbrackets.js" defer></script>
+    
+    <!-- BiwaScheme for code execution -->
+    <script src="/vendor/biwascheme-min.js" defer></script>
+    <script src="/js/racket-compat.js" defer></script>
+    
+    <!-- Markdown and Math Support -->
+    <script src="/vendor/marked.min.js" defer></script>
+    <script src="/js/mathjax-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="/js/theme.js" defer></script>
+    <script src="/js/editor.js" defer></script>
+    <script src="/js/exam.js" defer></script>
+</body>
+</html>
+

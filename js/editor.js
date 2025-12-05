@@ -1,40 +1,74 @@
 var editor;
 
-/** Initialize the CodeMirror editor */
-function initializeEditor() {
-    editor = CodeMirror.fromTextArea(document.getElementById("code-editor"), {
+/**
+ * Create and configure a CodeMirror editor with Racket/Scheme features
+ * @param {HTMLTextAreaElement} textarea - The textarea element to replace
+ * @param {Object} options - Configuration options
+ * @param {Function} options.onSave - Callback for auto-save (optional)
+ * @param {Function} options.onRun - Callback for Ctrl+Enter (optional, for running code)
+ * @param {boolean} options.autoFocus - Whether to focus the editor on init (default: false)
+ * @param {string} options.height - Height of the editor (optional)
+ * @param {boolean} options.enableLambdaShortcut - Enable Ctrl+\ for λ (default: true)
+ * @returns {CodeMirror} The configured CodeMirror instance
+ */
+function createRacketEditor(textarea, options) {
+    options = options || {};
+    
+    var cm = CodeMirror.fromTextArea(textarea, {
         mode: "scheme",
         lineNumbers: true,
         matchBrackets: true,
         indentUnit: 2,
         tabSize: 2,
         lineWrapping: false,
-        theme: "default",
+        theme: document.documentElement.classList.contains('dark-theme') ? 'monokai' : 'default',
         inputStyle: "contenteditable"
     });
     
-    editor.focus();
+    if (options.autoFocus) {
+        cm.focus();
+    }
     
-    editor.setOption("extraKeys", {
+    if (options.height) {
+        cm.setSize(null, options.height);
+    }
+    
+    var extraKeys = {
         "Tab": function(cm) {
             var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
             cm.replaceSelection(spaces);
-        },
-        "Ctrl-Enter": function(cm) {
-            runCode();
         }
-    });
+    };
     
-    editor.on("change", function(cm, change) {
-        if (typeof saveCurrentCode === 'function') {
+    if (options.onRun && typeof options.onRun === 'function') {
+        extraKeys["Ctrl-Enter"] = function(cm) {
+            options.onRun(cm);
+        };
+    }
+    
+    // Lambda calculus shortcut
+    if (options.enableLambdaShortcut !== false) {
+        extraKeys["Ctrl-\\"] = function(cm) {
+            cm.replaceSelection("λ");
+            // unselect the text
+            cm.setSelection(cm.getCursor(), cm.getCursor());
+        };
+    }
+    
+    cm.setOption("extraKeys", extraKeys);
+    
+    // Auto-save on change
+    if (options.onSave && typeof options.onSave === 'function') {
+        cm.on("change", function(cm, change) {
             clearTimeout(window.autoSaveTimeout);
             window.autoSaveTimeout = setTimeout(function() {
-                saveCurrentCode();
+                options.onSave(cm);
             }, 1000);
-        }
-    });
+        });
+    }
     
-    editor.on("beforeChange", function(cm, change) {
+    // Bracket correction - auto-correct closing brackets
+    cm.on("beforeChange", function(cm, change) {
         if (change.origin !== "+input" || change.text.length !== 1 || change.text[0].length !== 1) {
             return;
         }
@@ -68,6 +102,23 @@ function initializeEditor() {
                     change.update(change.from, change.to, [correctClosing]);
                 }
             }
+        }
+    });
+    
+    return cm;
+}
+
+/** Initialize the CodeMirror editor for the practice problems page */
+function initializeEditor() {
+    editor = createRacketEditor(document.getElementById("code-editor"), {
+        autoFocus: true,
+        onSave: function(cm) {
+            if (typeof saveCurrentCode === 'function') {
+                saveCurrentCode();
+            }
+        },
+        onRun: function(cm) {
+            runCode();
         }
     });
 }
@@ -110,8 +161,17 @@ function initializeMobileTabs() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    initializeEditor();
-    initializeMobileTabs();
+    // Only initialize if the code-editor element exists (practice page only)
+    const codeEditorElement = document.getElementById('code-editor');
+    if (codeEditorElement) {
+        initializeEditor();
+    }
+    
+    // Only initialize mobile tabs if they exist
+    const mobileTabs = document.querySelector('.mobile-tab');
+    if (mobileTabs) {
+        initializeMobileTabs();
+    }
 });
 
 document.addEventListener('keydown', function(event) {

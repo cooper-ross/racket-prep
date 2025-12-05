@@ -60,7 +60,7 @@ function splitExpressions(code) {
             currentExpr += ch;
             
             if (parenDepth === 0 && currentExpr.trim() !== '' && !inString) {
-                expressions.push(currentExpr.trim().replaceAll('λ', 'lambda'));
+                expressions.push(currentExpr.trim().replaceAll('λ', 'lambda '));
                 currentExpr = '';
             }
         }
@@ -71,7 +71,7 @@ function splitExpressions(code) {
     }
     
     if (currentExpr.trim() !== '' && parenDepth === 0) {
-        expressions.push(currentExpr.trim().replaceAll('λ', 'lambda'));
+        expressions.push(currentExpr.trim().replaceAll('λ', 'lambda '));
     }
     
     return expressions;
@@ -124,6 +124,10 @@ function runCode() {
         try {
             interpreter.evaluate('(reset-test-results)', function() {});
         } catch (e) {
+        }
+        
+        if (typeof preprocessMatch === 'function') {
+            code = preprocessMatch(code);
         }
         
         if (typeof preprocessLocal === 'function') {

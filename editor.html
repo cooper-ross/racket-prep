@@ -10,6 +10,16 @@
     <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
     <link rel="apple-touch-icon" href="/icons/favicon.svg">
 
+    <!-- Inline Theme-->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
+
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="/vendor/codemirror/codemirror.css">
 
@@ -25,7 +35,7 @@
         </div>
     </div>
 
-    <!-- Mobile Tab Navigation (hidden on desktop) -->
+    <!-- Mobile Tab Navigation -->
     <div class="mobile-tabs">
         <button class="mobile-tab active" data-panel="left">Problem</button>
         <button class="mobile-tab" data-panel="right">Editor</button>
@@ -109,17 +119,17 @@
     </div>
 
     <!-- Vendor JavaScript -->
-    <script src="/vendor/codemirror/codemirror.js"></script>
-    <script src="/vendor/codemirror/matchbrackets.js"></script>
-    <script src="/vendor/codemirror/scheme.js"></script>
-    <script src="/vendor/biwascheme-min.js"></script>
-    <script src="/vendor/marked.min.js"></script>
+    <script src="/vendor/codemirror/codemirror.js" defer></script>
+    <script src="/vendor/codemirror/matchbrackets.js" defer></script>
+    <script src="/vendor/codemirror/scheme.js" defer></script>
+    <script src="/vendor/biwascheme-min.js" defer></script>
+    <script src="/vendor/marked.min.js" defer></script>
 
     <!-- Custom JavaScript -->
-    <script src="/js/theme.js"></script>
-    <script src="/js/racket-compat.js"></script>
-    <script src="/js/controller.js"></script>
-    <script src="/js/editor.js"></script>
-    <script src="/js/interpreter.js"></script>
+    <script src="/js/theme.js" defer></script>
+    <script src="/js/racket-compat.js" defer></script>
+    <script src="/js/controller.js" defer></script>
+    <script src="/js/editor.js" defer></script>
+    <script src="/js/interpreter.js" defer></script>
 </body>
 </html>

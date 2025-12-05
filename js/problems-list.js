@@ -15,25 +15,30 @@
         try {
             const response = await fetch('problems/index.json');
             const data = await response.json();
-
-            const problemPromises = data.problems.map(async (filename) => {
-                try {
-                    const problemResponse = await fetch(`problems/${filename}`);
-                    const problemData = await problemResponse.json();
-                    const completed = getCompletionStatus(problemData.id);
-                    return { ...problemData, file: filename, completed };
-                } catch (problemError) {
-                    console.error(`Error loading problem ${filename}:`, problemError);
-                    return null;
-                }
-            });
-
-            const loadedProblems = await Promise.all(problemPromises);
-            allProblems = loadedProblems.filter(p => p !== null);
-
+            
             populateCategoryFilter(data.categories);
-            renderProblems();
-            updateStats();
+            
+            // Pre-allocate array to preserve original order
+            allProblems = new Array(data.problems.length);
+            
+            // Fire all requests in parallel, render in order as each completes
+            let loaded = 0;
+            data.problems.forEach((filename, index) => {
+                fetch(`problems/${filename}`)
+                    .then(res => res.json())
+                    .then(problemData => {
+                        allProblems[index] = { 
+                            ...problemData, 
+                            file: filename, 
+                            completed: getCompletionStatus(problemData.id) 
+                        };
+                        if (++loaded % 5 === 0 || loaded === data.problems.length) {
+                            renderProblems();
+                            updateStats();
+                        }
+                    })
+                    .catch(err => console.error(`Error loading ${filename}:`, err));
+            });
         } catch (error) {
             console.error('Error loading problems:', error);
             document.getElementById('problems-list').innerHTML =
@@ -98,6 +103,9 @@
 
     function filterProblems() {
         return allProblems.filter(problem => {
+            // Skip not-yet-loaded entries
+            if (!problem) return false;
+
             if (currentFilters.difficulty !== 'all' && problem.difficulty !== currentFilters.difficulty) {
                 return false;
             }
@@ -165,8 +173,9 @@
     }
 
     function updateStats() {
-        const total = allProblems.length;
-        const completed = allProblems.filter(p => p.completed).length;
+        const loadedProblems = allProblems.filter(p => p);
+        const total = loadedProblems.length;
+        const completed = loadedProblems.filter(p => p.completed).length;
         const remaining = total - completed;
 
         document.getElementById('total-problems').textContent = total;
@@ -178,4 +187,3 @@
     window.renderProblems = renderProblems;
     window.updateStats = updateStats;
 })();
-

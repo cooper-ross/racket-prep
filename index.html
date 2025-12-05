@@ -10,6 +10,16 @@
     <link rel="icon" type="image/x-icon" href="/icons/favicon.svg">
     <link rel="apple-touch-icon" href="/icons/favicon.svg">
     
+    <!-- Inline Theme-->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark-theme');
+            }
+        })();
+    </script>
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/editor.css">
@@ -24,6 +34,14 @@
     </div>
     
     <div class="problems-container">
+        <div class="exams-section">
+            <h2 class="section-title">Practice Exams</h2>
+            <div class="exams-grid" id="exams-grid">
+                <div class="loading">Loading exams...</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Practice Problems</h2>
         <div class="filters">
             <div class="filter-group">
                 <label>Difficulty:</label>
@@ -67,7 +85,8 @@
     </div>
     
     <!-- Custom JavaScript -->
-    <script src="/js/theme.js"></script>
-    <script src="/js/problems-list.js"></script>
+    <script src="/js/theme.js" defer></script>
+    <script src="/js/exams-list.js" defer></script>
+    <script src="/js/problems-list.js" defer></script>
 </body>
 </html>

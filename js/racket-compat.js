@@ -242,7 +242,8 @@ function createDefineStruct(interpreter) {
     
     var structHelper = `
 (define (make-struct-helper struct-name fields values)
-  (cons struct-name (cons 'struct-instance values)))
+  (let ([result (cons struct-name (cons 'struct-instance values))])
+    result))
 
 (define (struct-predicate-helper struct-name obj)
   (and (pair? obj)
@@ -254,8 +255,10 @@ function createDefineStruct(interpreter) {
   (if (and (pair? obj)
            (pair? (cdr obj))
            (eq? (cadr obj) 'struct-instance))
-      (list-ref (cddr obj) index)
-      0))`;
+      (let ([values-list (cddr obj)])
+        (list-ref values-list index))
+      false))`;
+    
     
     try {
         interpreter.evaluate(structHelper);
@@ -309,6 +312,220 @@ function preprocessDefineStruct(code, interpreter) {
     }
     
     return processedCode;
+}
+
+/** Pre-process code to handle match forms */
+function preprocessMatch(code) {
+    let gensymCounter = 0;
+    const gensym = () => `__match_val_${gensymCounter++}`;
+    
+    let maxIterations = 100;
+    let iterations = 0;
+    let changed = true;
+    
+    while (changed && iterations < maxIterations) {
+        changed = false;
+        iterations++;
+        
+        // Find a match form: (match expr [pattern body] ...)
+        const matchRegex = /\(match\s+/;
+        const matchMatch = code.match(matchRegex);
+        if (!matchMatch) break;
+        
+        const startPos = matchMatch.index;
+        let pos = startPos + 1; // After opening paren
+        
+        // Skip 'match' keyword
+        while (pos < code.length && /\s/.test(code[pos])) pos++;
+        while (pos < code.length && !/[\s()]/.test(code[pos])) pos++;
+        while (pos < code.length && /\s/.test(code[pos])) pos++;
+        
+        // Extract the expression to match
+        const exprStart = pos;
+        let exprDepth = 0;
+        while (pos < code.length) {
+            if (code[pos] === '(') exprDepth++;
+            else if (code[pos] === ')') {
+                if (exprDepth === 0) break;
+                exprDepth--;
+            }
+            else if (code[pos] === '[' && exprDepth === 0) break;
+            else if (/\s/.test(code[pos]) && exprDepth === 0) {
+                // Check if next non-whitespace is '['
+                let lookahead = pos + 1;
+                while (lookahead < code.length && /\s/.test(code[lookahead])) lookahead++;
+                if (lookahead < code.length && code[lookahead] === '[') break;
+            }
+            pos++;
+        }
+        const matchExpr = code.substring(exprStart, pos).trim();
+        
+        // Skip whitespace
+        while (pos < code.length && /\s/.test(code[pos])) pos++;
+        
+        // Extract clauses
+        const clauses = [];
+        while (pos < code.length && code[pos] === '[') {
+            pos++; // Skip '['
+            const clauseStart = pos;
+            let bracketDepth = 1;
+            let parenDepth = 0;
+            
+            // Find pattern end (first non-nested whitespace or end of clause)
+            while (pos < code.length && (parenDepth > 0 || bracketDepth > 1 || !/\s/.test(code[pos]))) {
+                if (code[pos] === '(') parenDepth++;
+                else if (code[pos] === ')') parenDepth--;
+                else if (code[pos] === '[') bracketDepth++;
+                else if (code[pos] === ']') {
+                    bracketDepth--;
+                    if (bracketDepth === 0) break;
+                }
+                pos++;
+            }
+            
+            const pattern = code.substring(clauseStart, pos).trim();
+            
+            // Skip whitespace
+            while (pos < code.length && /\s/.test(code[pos])) pos++;
+            
+            // Extract body
+            const bodyStart = pos;
+            parenDepth = 0;
+            bracketDepth = 1;
+            while (pos < code.length && bracketDepth > 0) {
+                if (code[pos] === '(') parenDepth++;
+                else if (code[pos] === ')') parenDepth--;
+                else if (code[pos] === '[') bracketDepth++;
+                else if (code[pos] === ']') {
+                    bracketDepth--;
+                    if (bracketDepth === 0) break;
+                }
+                pos++;
+            }
+            
+            const body = code.substring(bodyStart, pos).trim();
+            clauses.push({ pattern, body });
+            
+            pos++; // Skip ']'
+            while (pos < code.length && /\s/.test(code[pos])) pos++;
+        }
+        
+        // Skip closing paren of match
+        if (pos < code.length && code[pos] === ')') pos++;
+        
+        // Generate cond expression
+        const valSym = gensym();
+        let condExpr = `(let ([${valSym} ${matchExpr}])\n  (cond\n`;
+        
+        for (const clause of clauses) {
+            const { pattern, body } = clause;
+            
+            // Handle different pattern types
+            if (pattern === '_') {
+                // Wildcard - always matches
+                condExpr += `    [#t ${body}]\n`;
+            } else if (pattern === "'()" || pattern === '()') {
+                // Empty list
+                condExpr += `    [(null? ${valSym}) ${body}]\n`;
+            } else if (pattern.startsWith("'")) {
+                // Quoted literal
+                condExpr += `    [(equal? ${valSym} ${pattern}) ${body}]\n`;
+            } else if (pattern.match(/^\(\?\s+/)) {
+                // Predicate pattern: (? predicate) or (? predicate var)
+                const predMatch = pattern.match(/^\(\?\s+(\S+)(?:\s+(\S+))?\)$/);
+                if (predMatch) {
+                    const predicate = predMatch[1];
+                    const varName = predMatch[2];
+                    
+                    if (varName && varName !== '_') {
+                        // Bind to variable if specified
+                        condExpr += `    [(${predicate} ${valSym}) (let ([${varName} ${valSym}]) ${body})]\n`;
+                    } else {
+                        // No variable binding
+                        condExpr += `    [(${predicate} ${valSym}) ${body}]\n`;
+                    }
+                }
+            } else if (pattern.match(/^\(cons\s+/)) {
+                // Cons pattern: (cons x y)
+                const consMatch = pattern.match(/^\(cons\s+(\S+)\s+(\S+)\)$/);
+                if (consMatch) {
+                    const carPat = consMatch[1];
+                    const cdrPat = consMatch[2];
+                    if (carPat === '_' && cdrPat === '_') {
+                        condExpr += `    [(pair? ${valSym}) ${body}]\n`;
+                    } else if (cdrPat === '_') {
+                        condExpr += `    [(pair? ${valSym}) (let ([${carPat} (car ${valSym})]) ${body})]\n`;
+                    } else if (carPat === '_') {
+                        condExpr += `    [(pair? ${valSym}) (let ([${cdrPat} (cdr ${valSym})]) ${body})]\n`;
+                    } else {
+                        condExpr += `    [(pair? ${valSym}) (let ([${carPat} (car ${valSym})] [${cdrPat} (cdr ${valSym})]) ${body})]\n`;
+                    }
+                }
+            } else if (pattern.match(/^\(list\s+/)) {
+                // List pattern: (list x y z) or (list '+ a b)
+                const listMatch = pattern.match(/^\(list\s+(.+)\)$/);
+                if (listMatch) {
+                    // Parse elements more carefully to handle quoted symbols
+                    const elemStr = listMatch[1].trim();
+                    const elements = [];
+                    let i = 0;
+                    while (i < elemStr.length) {
+                        // Skip whitespace
+                        while (i < elemStr.length && /\s/.test(elemStr[i])) i++;
+                        if (i >= elemStr.length) break;
+                        
+                        // Check if it's a quoted symbol or regular token
+                        if (elemStr[i] === "'") {
+                            // Quoted symbol - capture quote and symbol
+                            let start = i;
+                            i++; // skip quote
+                            while (i < elemStr.length && !/\s/.test(elemStr[i])) i++;
+                            elements.push(elemStr.substring(start, i));
+                        } else {
+                            // Regular token
+                            let start = i;
+                            while (i < elemStr.length && !/\s/.test(elemStr[i])) i++;
+                            elements.push(elemStr.substring(start, i));
+                        }
+                    }
+                    
+                    const bindings = [];
+                    const conditions = [`(list? ${valSym})`, `(= (length ${valSym}) ${elements.length})`];
+                    
+                    elements.forEach((elem, idx) => {
+                        if (elem.startsWith("'")) {
+                            // Quoted element - add equality check
+                            conditions.push(`(equal? (list-ref ${valSym} ${idx}) ${elem})`);
+                        } else if (elem !== '_') {
+                            // Variable binding
+                            bindings.push(`[${elem} (list-ref ${valSym} ${idx})]`);
+                        }
+                    });
+                    
+                    const condition = conditions.length === 1 ? conditions[0] : `(and ${conditions.join(' ')})`;
+                    
+                    if (bindings.length > 0) {
+                        condExpr += `    [${condition} (let (${bindings.join(' ')}) ${body})]\n`;
+                    } else {
+                        condExpr += `    [${condition} ${body}]\n`;
+                    }
+                }
+            } else if (/^[a-zA-Z_][a-zA-Z0-9_-]*$/.test(pattern)) {
+                // Variable binding - always matches
+                condExpr += `    [#t (let ([${pattern} ${valSym}]) ${body})]\n`;
+            } else {
+                // Try to parse as literal
+                condExpr += `    [(equal? ${valSym} '${pattern}) ${body}]\n`;
+            }
+        }
+        
+        condExpr += `    [else (error "match: no matching clause")]))`;
+        
+        code = code.substring(0, startPos) + condExpr + code.substring(pos);
+        changed = true;
+    }
+    
+    return code;
 }
 
 /** Pre-process code to handle local forms */
@@ -417,4 +634,3 @@ function loadRacketCompat(interpreter) {
         console.error("Error loading Racket compatibility:", e);
     }
 }
-

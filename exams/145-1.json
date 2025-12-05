@@ -1,0 +1,560 @@
+{
+  "id": "145-1",
+  "title": "CS 145 Final",
+  "time": "3 hours",
+  "totalPoints": 75,
+  "description": "Full practice exam covering all course content for CS 145. Recursion, abstract list functions, trees, λ-calculus.",
+  "content": [
+    {
+      "type": "text",
+      "content": "### General Instructions\n- Assume the language of choice for all questions is Intermediate Student with Lambda, unless it relates to lambda calculus, in which case you can safely assume it is either theoretical or Lazy Racket.\n- For full marks, keep everything in most simplifed form, and use standard notations only. Examples: `(list 1 2 3)` is better than `'(1 2 3)`, and `true`/`false` is better than `#t`/`#f`. Use your best judgement to determine when to use the simpler form.\n- In general, if a question is asking you to write a function that already exists in Racket, you should not use the original function name. For example, if a question asks you to write a function `my-filter` that does the same thing as `filter`, you should not use the name `filter` in your implementation.\n- While I'm legally not allowed to pull questions from practice exams, I've written my own questions that cover the same material, and are designed to be similar in difficulty and style. At the very least, this exam should give you a good idea of what to expect on the actual exam.\n- Because you are writing code with a keyboard and highlighting, the quality expected is much higher than when you are writing by hand, so the grading is done by actually *running* your code. If there is a syntax error, you do not get *any* marks."
+    },
+    {
+      "type": "section",
+      "title": "Fill in the following blanks with the most appropriate words, numbers, or expressions:",
+      "description": "",
+      "content": [
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "The most appropriate contract for the built-in function `andmap` is:",
+          "verification": "const t = s => ((/\\s*andmap\\s*:\\s*\\(\\s*([A-Za-z])\\s*->\\s*(?:bool|Bool|boolean|Boolean)\\s*\\)\\s*\\(\\s*listof\\s*\\1\\s*\\)\\s*->\\s*(?:bool|Bool|boolean|Boolean)\\s*$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The function `andmap` takes a predicate function and a list, applies the predicate to every element, and returns true only if the predicate returns true for all elements. Therefore, its first argument must be a function from some type `X` to `Bool`, its second argument a list of `X` (the same type), and its result a `Bool`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Executing the following code `(second (rest (rest (list 'a 'b 'c 'd 'e))))` will produce:",
+          "verification": "const t = s => (s.includes(\"'d\") ? 1 : 0);",
+          "explanation": "Running `(list 'a 'b 'c 'd 'e)` creates the list `(a b c d e)`. Taking `rest` twice removes the first two elements, producing `(c d e)`. The `second` of that list is the element after `c`, which is `'d`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Only using `cons` and `empty`, `(list (list 8 true) (list \"test\"))` can be written as:",
+          "verification": "const t = s => ((/^\\(\\s*cons\\s*\\(\\s*cons\\s*8\\s*\\(\\s*cons\\s*true\\s*empty\\s*\\)\\s*\\)\\s*\\(\\s*cons\\s*\\(\\s*cons\\s*\"[^\"]*\"\\s*empty\\s*\\)\\s*empty\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "Each `(list ...)` form must be rewritten using nested `cons` and `empty`. `(list 8 true)` becomes `(cons 8 (cons true empty))`. `(list \"test\")` becomes `(cons \"test\" empty)`. Finally, the outer list holding the two inner lists is another pair of `cons` cells ending in `empty`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "The lambda calculus expression `(λ(x) (λ(y) ((x y) x)))` matches the behavior of the fundamental logical operator:",
+          "verification": "const t = s => (/^\\s*(and|&&|&)\\s*$/iu).test(s.trim()) ? 1 : 0;",
+          "explanation": "With Church booleans, the expression `λ(x) λ(y) (x y x)` acts as: if `x` then `y` else `x`. If `x = true`, then `(x y x) = (true y x) = y` (so if `x` is true, and `y` is true, then the result is true and if `x` is true and `y` is false, then the result is false), and if `x = false`, then `(x y x) = (false y x) = x = false`, which is exactly the behavior of `and`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Using list notation, `(cons empty (cons 1 (cons 2 empty)))` can be written as:",
+          "verification": "const t = s => ((/^(?:\\(list\\s+(?:empty|'?\\(\\))\\s+1\\s+2\\)|'\\(\\(\\)\\s+1\\s+2\\))$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The structure `(cons empty (cons 1 (cons 2 empty)))` is a list with elements `empty`, `1`, and `2`. In list notation, placing those elements inside a list produces `(list empty 1 2)`. A common error is assuming `(cons empty (list 1))` is simply `(list 1)` instead of the true answer `(list empty 1)`, since `(cons 1 empty)` is `(list 1)`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "When recursively traversing a list where order does not matter, the most appropriate abstract list function to use is:",
+          "verification": "const t = s => ((/^(?:foldl)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "When order does not matter, `foldl` is the most appropriate function to use, since it is tail-recursive, and is generally more efficient than `foldr`."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Write the following functions using abstract list functions only:",
+      "description": "",
+      "content": [
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "Write a function `sum-of-squares` that takes a non-empty list of numbers and produces the sum of each element squared.",
+          "starterCode": "(define (sum-of-squares lst))",
+          "hiddenCases": [
+            "(check-expect (sum-of-squares (list 1 2 3)) 14)",
+            "(check-expect (sum-of-squares (list 4 5 6)) 77)",
+            "(check-expect (sum-of-squares (list 10 20 30)) 1400)",
+            "(check-expect (sum-of-squares (list 100 200 300)) 140000)"
+          ],
+          "explanation": "To solve, just **fold** over the list, squaring each element and summing the results. **Order doesn't matter** here, so either `foldr` or `foldl` is acceptable. Other approaches do exist, such as using `map` and `foldr` to square the elements and then sum the results."
+        },
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "In Racket, the `argmax` function takes a function and a list, and returns the value in the list that maximizes the function. Write a function `my-argmax` that does the same thing.",
+          "starterCode": "(define (my-argmax func lst))",
+          "hiddenCases": [
+            "(check-expect (my-argmax (lambda (x) x) (list 1 2 3)) 3)",
+            "(check-expect (my-argmax (lambda (x) x) (list 4 5 6)) 6)",
+            "(check-expect (my-argmax (lambda (x) x) (list -10 -20 -30)) -10)",
+            "(check-expect (my-argmax (lambda (x) x) (list 100 200 300)) 300)"
+          ],
+          "explanation": "To implement `my-argmax`, you should use `foldr` and the function to find the **maximum value**. At each step, you compare the current element with the maximum, and update the maximum if the current element is **greater.** You should start with the first element as the **initial maximum**, or start with `-inf.0`, though alternatives work."
+        },
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "In Racket, the `implode` function takes a list of one-letter strings and produces a string. Write a function `my-implode` that does the same thing.",
+          "starterCode": "(define (my-implode lst))",
+          "hiddenCases": [
+            "(check-expect (my-implode (list \"a\" \"b\" \"c\")) \"abc\")",
+            "(check-expect (my-implode (list \"1\" \"2\" \"3\")) \"123\")",
+            "(check-expect (my-implode (list \"a\" \"b\" \"c\" \"d\" \"e\")) \"abcde\")"
+          ],
+          "explanation": "To implement `my-implode`, you should use `foldr` and `string-append` to build the string, since `string-append` concatenates its first argument before it's second argument in the combined string."
+        },
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "In Racket, the `filter` function takes a predicate function and a list, and returns a new list containing only the elements for which the predicate returns true. Write a function `my-filter` that does the same thing.",
+          "starterCode": "(define (my-filter pred lst))",
+          "hiddenCases": [
+            "(check-expect (my-filter (lambda (x) true) (list 1 2 3)) (list 1 2 3))",
+            "(check-expect (my-filter (lambda (x) false) (list 1 2 3)) empty)",
+            "(check-expect (my-filter (lambda (x) (= x 5)) (list 1 5 3 5 7)) (list 5 5))",
+            "(check-expect (my-filter (lambda (x) (string=? x \"a\")) (list \"a\" \"b\" \"a\" \"c\")) (list \"a\" \"a\"))",
+            "(check-expect (my-filter positive? (list 1 -2 3 -4 5)) (list 1 3 5))",
+            "(check-expect (my-filter zero? (list 1 0 3 0 5)) (list 0 0))",
+            "(check-expect (my-filter (lambda (x) (< x 10)) (list 5 15 8 20 3)) (list 5 8 3))",
+            "(check-expect (my-filter (lambda (x) (> (string-length x) 2)) (list \"a\" \"abc\" \"de\" \"fghi\")) (list \"abc\" \"fghi\"))"
+          ],
+          "explanation": "To implement `my-filter`, you should use `foldr` and the predicate function to build the new list in reverse. At each step, you check if the **current element** satisfies the **predicate**. If it does, you cons it to the front of the new list, otherwise you keep the current accumulator."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "A library needs to keep track of its inventory of books, and the staff are thinking about doing something easy and obvious, like an alphabetically ordered list. But then a mathematician makes everything complicated and difficult by suggesting a Binary Search Tree. The BST they now use is defined as follows:",
+      "content": [
+        {
+          "type": "code",
+          "content": "(define-struct node (left right title author year))"
+        },
+        {
+          "type": "text",
+          "content": "The `title` field of each node is a string representing the title of the book, the `title` field is the key, and is compared using `string<?`. The `author` field is a string representing the author of the book, and the `year` field is a natural number representing the year of publication."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "code",
+          "content": "Define a new book `the-great-gatsby` for \"The Great Gatsby\" by F. Scott Fitzgerald, published in 1925:",
+          "starterCode": "(define-struct node (left right title author year))\n\n(define the-great-gatsby)",
+          "hiddenCases": [
+            "(check-expect (node-title the-great-gatsby) \"The Great Gatsby\")",
+            "(check-expect (node-author the-great-gatsby) \"F. Scott Fitzgerald\")",
+            "(check-expect (node-year the-great-gatsby) 1925)",
+            "(check-expect (node-left the-great-gatsby) empty)",
+            "(check-expect (node-right the-great-gatsby) empty)"
+          ],
+          "explanation": "Simply use the `define-struct` form to create a new node with the given title, author, and year. The `left` and `right` fields should be empty, since it is a single node."
+        },
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "Write the function `bst-find` that takes a BST and a title, and returns the a list of the name, author, and year of the book with the given title, or false if the book is not in the tree:",
+          "starterCode": "(define-struct node (left right title author year))\n\n(define (bst-find title t))",
+          "hiddenCases": [
+            "(check-expect (bst-find \"The Great Gatsby\" empty) false)",
+            "(check-expect (bst-find \"Moby Dick\" (make-node empty empty \"Moby Dick\" \"Herman Melville\" 1851)) (list \"Moby Dick\" \"Herman Melville\" 1851))",
+            "(check-expect (bst-find \"To Kill a Mockingbird\" (make-node (make-node empty empty \"Moby Dick\" \"Herman Melville\" 1851) empty \"The Great Gatsby\" \"F. Scott Fitzgerald\" 1925)) false)",
+            "(check-expect (bst-find \"To Kill a Mockingbird\" (make-node (make-node empty empty \"Moby Dick\" \"Herman Melville\" 1851) (make-node empty empty \"To Kill a Mockingbird\" \"Harper Lee\" 1960) \"The Great Gatsby\" \"F. Scott Fitzgerald\" 1925)) (list \"To Kill a Mockingbird\" \"Harper Lee\" 1960))"
+          ],
+          "explanation": "If the current node's title is greater than the target title, search the left subtree. If the current node's title is less than the target title, search the right subtree. If the current node's title is equal to the target title, return the list of the name, author, and year of the book."
+        },
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "Write the function `list-bst` that takes a BST and returns a list of all the *titles* of the books in the tree in ascending alphabetical order:",
+          "starterCode": "(define-struct node (left right title author year))\n\n(define (list-bst t))",
+          "hiddenCases": [
+            "(check-expect (list-bst empty) empty)",
+            "(check-expect (list-bst (make-node empty empty \"The Great Gatsby\" \"F. Scott Fitzgerald\" 1925)) (list \"The Great Gatsby\"))",
+            "(check-expect (list-bst (make-node (make-node empty empty \"Moby Dick\" \"Herman Melville\" 1851) empty \"The Great Gatsby\" \"F. Scott Fitzgerald\" 1925)) (list \"Moby Dick\" \"The Great Gatsby\"))",
+            "(check-expect (list-bst (make-node (make-node empty empty \"Moby Dick\" \"Herman Melville\" 1851) (make-node empty empty \"To Kill a Mockingbird\" \"Harper Lee\" 1960) \"The Great Gatsby\" \"F. Scott Fitzgerald\" 1925)) (list \"Moby Dick\" \"The Great Gatsby\" \"To Kill a Mockingbird\"))"
+          ],
+          "explanation": "Standard inorder traversal of the BST. If the current node is empty, return an empty list. If the current node is not empty, return the list of the titles in the left subtree, the current node's title, and the list of the titles in the right subtree."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "As you may be aware, in math, a radical is an expression of the form $\\sqrt[n]{x}$, where $n$ is the index of the radical and $x$ is the radicand. A mixed radical is a radical with a coefficient in front of the radical, such as $2\\sqrt{3}$. Mathematicians love simple things. So they would take $\\sqrt{12}$ and simplify it to $2\\sqrt{3}$ because $12 = 2^2 \\times 3$. But mathematicians are lazy, so they don't want to figure out how to simplify a radical by hand! So they use a computer to do it for them. Write a function `simplify-radical` that takes a natural number radicand and a natural number index, and returns a list of two numbers, the first being the coefficient and the second being the radicand. For example, `(simplify-radical 12 2)` should return `(list 2 3)`.",
+      "content": [
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `simplify-radical`:",
+          "starterCode": "(define (simplify-radical idx rad))",
+          "hiddenCases": [
+            "(check-expect (simplify-radical 12 2) (list 2 3))",
+            "(check-expect (simplify-radical 18 2) (list 3 2))",
+            "(check-expect (simplify-radical 24 2) (list 2 6))",
+            "(check-expect (simplify-radical 32 2) (list 4 2))"
+          ],
+          "explanation": "To simplify $\\sqrt[idx]{n}$, you find the **largest** $k$ such that $k^{idx}$ divides $n$. You try all $k = 1, 2, 3,\\dots$ until $k^{idx} > n$, and you keep track of the **best valid** $k$. Then return: `(list best (/ n (expt best idx)))`."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "Create a Racket function called `submatrix` that takes three inputs: a list `A` consisting of `p` sublists of numbers (each sublist containing `q` numbers), and two indices `r` and `c`. The function should return a new list containing `p - 1` sublists, each of length `q - 1`. The resulting structure must match `A` except that the sublist at position `r` is omitted, and from every remaining sublist the element at position `c` is removed. All indexing is 0-based.\nFor instance, evaluating: `(submatrix (list (list 2 4 6) (list 1 3 5) (list 8 10 12)) 0 1)` should yield: `(list (list 1 5) (list 8 12))`.",
+      "content": [
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "Write the function `submatrix`:",
+          "starterCode": "(define (submatrix A r c))",
+          "hiddenCases": [
+            "(check-expect (submatrix (list (list 2 4 6) (list 1 3 5) (list 8 10 12)) 0 1) (list (list 1 5) (list 8 12)))",
+            "(check-expect (submatrix (list (list 1 2 3) (list 4 5 6) (list 7 8 9)) 1 1) (list (list 1 3) (list 7 9)))",
+            "(check-expect (submatrix (list (list 9 8 7) (list 6 5 4) (list 3 2 1)) 2 0) (list (list 8 7) (list 5 4)))",
+            "(check-expect (submatrix (list (list 10 20) (list 30 40)) 0 0) (list (list 40)))"
+          ],
+          "explanation": "The best way to approach this problem is to break it into two small tasks: removing one entire row and removing one element from every remaining row. First, a helper walks through the outer structure until it reaches the row that should be skipped. Another helper goes through each row in the same way, stopping at the element that should be removed. After the specified row is taken out, the function applies the element-removing helper to each of the rows that are left. This produces a new, smaller matrix with both the chosen row and column removed."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "The term collinear refers to three (or more) points that lie on a single straight line, which means that the line connecting any two of the points also passes through the third point. Write a function that takes six numbers representing three points in the plane and determines whether the points are collinear. Return true if they are collinear and false otherwise.",
+      "content": [
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `collinear`:",
+          "starterCode": "(define (collinear x1 y1 x2 y2 x3 y3))",
+          "hiddenCases": [
+            "(check-expect (collinear 0 0 1 1 2 2) true)",
+            "(check-expect (collinear 0 0 0 1 0 2) true)",
+            "(check-expect (collinear 1 2 3 4 5 7) false)"
+          ],
+          "explanation": "A common method is to compare slopes: three points are collinear when the slope from the first to the second equals the slope from the first to the third. You can avoid division by checking whether the cross-product (x2 - x1)*(y3 - y1) equals (y2 - y1)*(x3 - x1)."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "A prime number is a positive integer that has no positive integer divisors other than 1 and itself. Write a function that determines whether a given positive integer is prime. The function should return true for prime numbers and false for composite number (and 1).",
+      "content": [
+        {
+          "type": "question",
+          "points": 6,
+          "prompt": "code",
+          "content": "Write the function `prime?`:",
+          "starterCode": "(define (prime? n))",
+          "hiddenCases": [
+            "(check-expect (prime? 1) false)",
+            "(check-expect (prime? 2) true)",
+            "(check-expect (prime? 6) false)",
+            "(check-expect (prime? 7) true)"
+          ],
+          "explanation": "A standard approach is to test whether any integer from 2 up to the square root of n divides n evenly. If none do, n is prime. Handle 1 as a special case since it is not considered prime."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "You are to design and implement an abstract data type called **MinQueue**. A MinQueue stores integers in the order they are enqueued, supports standard queue operations, and additionally provides efficient access to the smallest value that is currently present. How you represent the internal state of a MinQueue is up to you, provided that all required operations behave according to their specifications.\n\nAlongside the usual language-provided data structures, you also have access to an AVL tree module, which you may use if you find it helpful. This module defines the following operations on an AVL structure:\n\n- `avl-empty : -> AVL` — Creates an empty AVL structure.\n- `avl-insert : Integer AVL -> AVL` — Inserts one occurrence of an integer, returning a new AVL.\n- `avl-remove : Integer AVL -> AVL` — Removes a single occurrence of an integer, if present.\n- `avl-min : AVL -> Integer` — Produces the smallest integer stored in the structure.\n- `avl-member? : Integer AVL -> Boolean` — Determines whether the integer appears in the structure.\n- `avl-size : AVL -> Integer` — Returns the number of stored values (including duplicates).\n\nYou may rely on these functions behaving correctly and having the usual performance characteristics of an automatically balanced search tree.\n<br>**Required MinQueue Operations:**\n\nYour MinQueue implementation must support the following operations:\n\n- `mq-empty` — An empty MinQueue constant.\n- `mq-empty? M` — Returns whether the MinQueue contains no values.\n- `mq-enqueue x M` — Returns a MinQueue like M but with integer x added at the back.\n- `mq-min M` — Returns the minimum integer currently stored. The MinQueue is guaranteed to be non-empty when this is called.\n- `mq-front M` — Returns the oldest value without removing it.\n- `mq-dequeue M` — Removes and returns a list containing the oldest value and the updated MinQueue. You may assume the MinQueue is non-empty when this is called.\n\nYour representation must ensure that all these operations work correctly, but you are free to choose the internal organization of the structure and any supporting data structures you find appropriate, including but not limited to the provided AVL module. That said, you must have a struct named `minqueue`, since all test cases reference this. Each function can reference all previous functions defined above it at all times, and you may assume a correct implementation will be provided (regardless of your own code), as well as other default functions such as `make-minqueue` etc.",
+      "content": [
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "Define the structure for your MinQueue and implement `mq-empty`, an empty MinQueue constant:",
+          "starterCode": "(define-struct minqueue (front back avl))\n(define mq-empty)",
+          "precode": "(define-struct avl-node (key left right))\n(define avl-empty empty)\n(define (avl-empty? t) (empty? t))\n(define (avl-height t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1 (max (avl-height (avl-node-left t))\n                    (avl-height (avl-node-right t))))]))\n(define (avl-balance-factor t)\n  (- (avl-height (avl-node-left t))\n     (avl-height (avl-node-right t))))\n(define (rotate-right y)\n  (make-avl-node\n   (avl-node-key (avl-node-left y))\n   (avl-node-left (avl-node-left y))\n   (make-avl-node\n    (avl-node-key y)\n    (avl-node-right (avl-node-left y))\n    (avl-node-right y))))\n(define (rotate-left x)\n  (make-avl-node\n   (avl-node-key (avl-node-right x))\n   (make-avl-node\n    (avl-node-key x)\n    (avl-node-left x)\n    (avl-node-left (avl-node-right x)))\n   (avl-node-right (avl-node-right x))))\n(define (avl-rebalance t)\n  (cond\n    [(> (avl-balance-factor t) 1)\n     (if (< (avl-balance-factor (avl-node-left t)) 0)\n         (rotate-right\n          (make-avl-node\n           (avl-node-key t)\n           (rotate-left (avl-node-left t))\n           (avl-node-right t)))\n         (rotate-right t))]\n    [(< (avl-balance-factor t) -1)\n     (if (> (avl-balance-factor (avl-node-right t)) 0)\n         (rotate-left\n          (make-avl-node\n           (avl-node-key t)\n           (avl-node-left t)\n           (rotate-right (avl-node-right t))))\n         (rotate-left t))]\n    [else t]))\n(define (avl-member? x t)\n  (cond\n    [(avl-empty? t) false]\n    [(= x (avl-node-key t)) true]\n    [(< x (avl-node-key t)) (avl-member? x (avl-node-left t))]\n    [else                   (avl-member? x (avl-node-right t))]))\n(define (avl-size t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1\n             (avl-size (avl-node-left t))\n             (avl-size (avl-node-right t)))]))\n(define (avl-min t)\n  (cond\n    [(avl-empty? t)\n     (error \"avl-min: empty tree\")]\n    [(avl-empty? (avl-node-left t))\n     (avl-node-key t)]\n    [else\n     (avl-min (avl-node-left t))]))\n(define (avl-insert x t)\n  (cond\n    [(avl-empty? t)\n     (make-avl-node x avl-empty avl-empty)]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-insert x (avl-node-left t))\n       (avl-node-right t)))]\n    [else\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-insert x (avl-node-right t))))]))\n(define (avl-remove x t)\n  (cond\n    [(avl-empty? t)\n     avl-empty]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-remove x (avl-node-left t))\n       (avl-node-right t)))]\n    [(> x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-remove x (avl-node-right t))))]\n    [else\n     (cond\n       [(avl-empty? (avl-node-left t))\n        (avl-node-right t)]\n       [(avl-empty? (avl-node-right t))\n        (avl-node-left t)]\n       [else\n        (avl-rebalance\n         (make-avl-node\n          (avl-min (avl-node-right t))\n          (avl-node-left t)\n          (avl-remove (avl-min (avl-node-right t))\n                      (avl-node-right t))))])]))",
+          "hiddenCases": [
+            "(check-expect (minqueue? mq-empty) true)",
+            "(check-expect (empty? (minqueue-front mq-empty)) true)",
+            "(check-expect (empty? (minqueue-back mq-empty)) true)"
+          ],
+          "explanation": "Use a structure with three fields: `front` (a list of elements ready to dequeue), `back` (a list accumulating newly enqueued elements), and `avl` (an AVL tree tracking all elements for efficient minimum lookup). Initialize `mq-empty` as `(make-minqueue empty empty avl-empty)`, representing an empty two-list queue with an empty AVL tree."
+        },
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "Implement `mq-empty?` that takes a MinQueue and returns true if it contains no values, false otherwise:",
+          "starterCode": "(define (mq-empty? M))",
+          "precode": "(define-struct avl-node (key left right))\n(define avl-empty empty)\n(define (avl-empty? t) (empty? t))\n(define (avl-height t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1 (max (avl-height (avl-node-left t))\n                    (avl-height (avl-node-right t))))]))\n(define (avl-balance-factor t)\n  (- (avl-height (avl-node-left t))\n     (avl-height (avl-node-right t))))\n(define (rotate-right y)\n  (make-avl-node\n   (avl-node-key (avl-node-left y))\n   (avl-node-left (avl-node-left y))\n   (make-avl-node\n    (avl-node-key y)\n    (avl-node-right (avl-node-left y))\n    (avl-node-right y))))\n(define (rotate-left x)\n  (make-avl-node\n   (avl-node-key (avl-node-right x))\n   (make-avl-node\n    (avl-node-key x)\n    (avl-node-left x)\n    (avl-node-left (avl-node-right x)))\n   (avl-node-right (avl-node-right x))))\n(define (avl-rebalance t)\n  (cond\n    [(> (avl-balance-factor t) 1)\n     (if (< (avl-balance-factor (avl-node-left t)) 0)\n         (rotate-right\n          (make-avl-node\n           (avl-node-key t)\n           (rotate-left (avl-node-left t))\n           (avl-node-right t)))\n         (rotate-right t))]\n    [(< (avl-balance-factor t) -1)\n     (if (> (avl-balance-factor (avl-node-right t)) 0)\n         (rotate-left\n          (make-avl-node\n           (avl-node-key t)\n           (avl-node-left t)\n           (rotate-right (avl-node-right t))))\n         (rotate-left t))]\n    [else t]))\n(define (avl-member? x t)\n  (cond\n    [(avl-empty? t) false]\n    [(= x (avl-node-key t)) true]\n    [(< x (avl-node-key t)) (avl-member? x (avl-node-left t))]\n    [else                   (avl-member? x (avl-node-right t))]))\n(define (avl-size t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1\n             (avl-size (avl-node-left t))\n             (avl-size (avl-node-right t)))]))\n(define (avl-min t)\n  (cond\n    [(avl-empty? t)\n     (error \"avl-min: empty tree\")]\n    [(avl-empty? (avl-node-left t))\n     (avl-node-key t)]\n    [else\n     (avl-min (avl-node-left t))]))\n(define (avl-insert x t)\n  (cond\n    [(avl-empty? t)\n     (make-avl-node x avl-empty avl-empty)]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-insert x (avl-node-left t))\n       (avl-node-right t)))]\n    [else\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-insert x (avl-node-right t))))]))\n(define (avl-remove x t)\n  (cond\n    [(avl-empty? t)\n     avl-empty]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-remove x (avl-node-left t))\n       (avl-node-right t)))]\n    [(> x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-remove x (avl-node-right t))))]\n    [else\n     (cond\n       [(avl-empty? (avl-node-left t))\n        (avl-node-right t)]\n       [(avl-empty? (avl-node-right t))\n        (avl-node-left t)]\n       [else\n        (avl-rebalance\n         (make-avl-node\n          (avl-min (avl-node-right t))\n          (avl-node-left t)\n          (avl-remove (avl-min (avl-node-right t))\n                      (avl-node-right t))))])]))\n(define-struct minqueue (front back avl))\n(define mq-empty (make-minqueue empty empty avl-empty))",
+          "hiddenCases": [
+            "(check-expect (mq-empty? mq-empty) true)",
+            "(check-expect (mq-empty? (make-minqueue (list 5) empty avl-empty)) false)",
+            "(check-expect (mq-empty? (make-minqueue empty (list 10) avl-empty)) false)"
+          ],
+          "explanation": "A MinQueue is empty when both the front and back lists contain no elements. Check this by using `(and (empty? (minqueue-front M)) (empty? (minqueue-back M)))`. You could alternatively check if the AVL tree is empty, but verifying both list fields is more direct."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Implement `mq-enqueue` that takes an integer and a MinQueue, and returns a new MinQueue with the integer added at the back:",
+          "starterCode": "(define (mq-enqueue x M))",
+          "precode": "(define-struct avl-node (key left right))\n(define avl-empty empty)\n(define (avl-empty? t) (empty? t))\n(define (avl-height t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1 (max (avl-height (avl-node-left t))\n                    (avl-height (avl-node-right t))))]))\n(define (avl-balance-factor t)\n  (- (avl-height (avl-node-left t))\n     (avl-height (avl-node-right t))))\n(define (rotate-right y)\n  (make-avl-node\n   (avl-node-key (avl-node-left y))\n   (avl-node-left (avl-node-left y))\n   (make-avl-node\n    (avl-node-key y)\n    (avl-node-right (avl-node-left y))\n    (avl-node-right y))))\n(define (rotate-left x)\n  (make-avl-node\n   (avl-node-key (avl-node-right x))\n   (make-avl-node\n    (avl-node-key x)\n    (avl-node-left x)\n    (avl-node-left (avl-node-right x)))\n   (avl-node-right (avl-node-right x))))\n(define (avl-rebalance t)\n  (cond\n    [(> (avl-balance-factor t) 1)\n     (if (< (avl-balance-factor (avl-node-left t)) 0)\n         (rotate-right\n          (make-avl-node\n           (avl-node-key t)\n           (rotate-left (avl-node-left t))\n           (avl-node-right t)))\n         (rotate-right t))]\n    [(< (avl-balance-factor t) -1)\n     (if (> (avl-balance-factor (avl-node-right t)) 0)\n         (rotate-left\n          (make-avl-node\n           (avl-node-key t)\n           (avl-node-left t)\n           (rotate-right (avl-node-right t))))\n         (rotate-left t))]\n    [else t]))\n(define (avl-member? x t)\n  (cond\n    [(avl-empty? t) false]\n    [(= x (avl-node-key t)) true]\n    [(< x (avl-node-key t)) (avl-member? x (avl-node-left t))]\n    [else                   (avl-member? x (avl-node-right t))]))\n(define (avl-size t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1\n             (avl-size (avl-node-left t))\n             (avl-size (avl-node-right t)))]))\n(define (avl-min t)\n  (cond\n    [(avl-empty? t)\n     (error \"avl-min: empty tree\")]\n    [(avl-empty? (avl-node-left t))\n     (avl-node-key t)]\n    [else\n     (avl-min (avl-node-left t))]))\n(define (avl-insert x t)\n  (cond\n    [(avl-empty? t)\n     (make-avl-node x avl-empty avl-empty)]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-insert x (avl-node-left t))\n       (avl-node-right t)))]\n    [else\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-insert x (avl-node-right t))))]))\n(define (avl-remove x t)\n  (cond\n    [(avl-empty? t)\n     avl-empty]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-remove x (avl-node-left t))\n       (avl-node-right t)))]\n    [(> x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-remove x (avl-node-right t))))]\n    [else\n     (cond\n       [(avl-empty? (avl-node-left t))\n        (avl-node-right t)]\n       [(avl-empty? (avl-node-right t))\n        (avl-node-left t)]\n       [else\n        (avl-rebalance\n         (make-avl-node\n          (avl-min (avl-node-right t))\n          (avl-node-left t)\n          (avl-remove (avl-min (avl-node-right t))\n                      (avl-node-right t))))])]))\n(define-struct minqueue (front back avl))\n(define mq-empty (make-minqueue empty empty avl-empty))\n(define (mq-empty? M)\n  (and (empty? (minqueue-front M))\n       (empty? (minqueue-back M))))",
+          "hiddenCases": [
+            "(check-expect (minqueue? (mq-enqueue 5 mq-empty)) true)",
+            "(check-expect (avl-size (minqueue-avl (mq-enqueue 5 mq-empty))) 1)",
+            "(check-expect (avl-size (minqueue-avl (mq-enqueue 20 (mq-enqueue 10 mq-empty)))) 2)",
+            "(check-expect (length (minqueue-back (mq-enqueue 5 mq-empty))) 1)"
+          ],
+          "explanation": "To enqueue an element, add it to the back list using `cons` and insert it into the AVL tree using `avl-insert`. Return a new MinQueue with: the same front list, the new element consed onto the back list, and the updated AVL tree. This maintains both queue order and enables efficient minimum lookup."
+        },
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "Implement `mq-min` that takes a non-empty MinQueue and returns the minimum integer currently stored:",
+          "starterCode": "(define (mq-min M))",
+          "precode": "(define-struct avl-node (key left right))\n(define avl-empty empty)\n(define (avl-empty? t) (empty? t))\n(define (avl-height t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1 (max (avl-height (avl-node-left t))\n                    (avl-height (avl-node-right t))))]))\n(define (avl-balance-factor t)\n  (- (avl-height (avl-node-left t))\n     (avl-height (avl-node-right t))))\n(define (rotate-right y)\n  (make-avl-node\n   (avl-node-key (avl-node-left y))\n   (avl-node-left (avl-node-left y))\n   (make-avl-node\n    (avl-node-key y)\n    (avl-node-right (avl-node-left y))\n    (avl-node-right y))))\n(define (rotate-left x)\n  (make-avl-node\n   (avl-node-key (avl-node-right x))\n   (make-avl-node\n    (avl-node-key x)\n    (avl-node-left x)\n    (avl-node-left (avl-node-right x)))\n   (avl-node-right (avl-node-right x))))\n(define (avl-rebalance t)\n  (cond\n    [(> (avl-balance-factor t) 1)\n     (if (< (avl-balance-factor (avl-node-left t)) 0)\n         (rotate-right\n          (make-avl-node\n           (avl-node-key t)\n           (rotate-left (avl-node-left t))\n           (avl-node-right t)))\n         (rotate-right t))]\n    [(< (avl-balance-factor t) -1)\n     (if (> (avl-balance-factor (avl-node-right t)) 0)\n         (rotate-left\n          (make-avl-node\n           (avl-node-key t)\n           (avl-node-left t)\n           (rotate-right (avl-node-right t))))\n         (rotate-left t))]\n    [else t]))\n(define (avl-member? x t)\n  (cond\n    [(avl-empty? t) false]\n    [(= x (avl-node-key t)) true]\n    [(< x (avl-node-key t)) (avl-member? x (avl-node-left t))]\n    [else                   (avl-member? x (avl-node-right t))]))\n(define (avl-size t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1\n             (avl-size (avl-node-left t))\n             (avl-size (avl-node-right t)))]))\n(define (avl-min t)\n  (cond\n    [(avl-empty? t)\n     (error \"avl-min: empty tree\")]\n    [(avl-empty? (avl-node-left t))\n     (avl-node-key t)]\n    [else\n     (avl-min (avl-node-left t))]))\n(define (avl-insert x t)\n  (cond\n    [(avl-empty? t)\n     (make-avl-node x avl-empty avl-empty)]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-insert x (avl-node-left t))\n       (avl-node-right t)))]\n    [else\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-insert x (avl-node-right t))))]))\n(define (avl-remove x t)\n  (cond\n    [(avl-empty? t)\n     avl-empty]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-remove x (avl-node-left t))\n       (avl-node-right t)))]\n    [(> x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-remove x (avl-node-right t))))]\n    [else\n     (cond\n       [(avl-empty? (avl-node-left t))\n        (avl-node-right t)]\n       [(avl-empty? (avl-node-right t))\n        (avl-node-left t)]\n       [else\n        (avl-rebalance\n         (make-avl-node\n          (avl-min (avl-node-right t))\n          (avl-node-left t)\n          (avl-remove (avl-min (avl-node-right t))\n                      (avl-node-right t))))])]))\n(define-struct minqueue (front back avl))\n(define mq-empty (make-minqueue empty empty avl-empty))\n(define (mq-empty? M)\n  (and (empty? (minqueue-front M))\n       (empty? (minqueue-back M))))\n(define (mq-enqueue x M)\n  (make-minqueue\n   (minqueue-front M)\n   (cons x (minqueue-back M))\n   (avl-insert x (minqueue-avl M))))",
+          "hiddenCases": [
+            "(check-expect (mq-min (mq-enqueue 5 mq-empty)) 5)",
+            "(check-expect (mq-min (mq-enqueue 20 (mq-enqueue 10 mq-empty))) 10)",
+            "(check-expect (mq-min (mq-enqueue 30 (mq-enqueue 5 (mq-enqueue 20 mq-empty)))) 5)"
+          ],
+          "explanation": "Use the AVL tree's `avl-min` function to efficiently retrieve the minimum value in O(log n) time. Simply extract the AVL tree from the MinQueue structure using `minqueue-avl` and call `avl-min` on it."
+        },
+        {
+          "type": "question",
+          "points": 2,
+          "prompt": "code",
+          "content": "Implement `mq-front` that takes a non-empty MinQueue and returns the oldest value without removing it:",
+          "starterCode": "(define (mq-front M))",
+          "precode": "(define-struct avl-node (key left right))\n(define avl-empty empty)\n(define (avl-empty? t) (empty? t))\n(define (avl-height t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1 (max (avl-height (avl-node-left t))\n                    (avl-height (avl-node-right t))))]))\n(define (avl-balance-factor t)\n  (- (avl-height (avl-node-left t))\n     (avl-height (avl-node-right t))))\n(define (rotate-right y)\n  (make-avl-node\n   (avl-node-key (avl-node-left y))\n   (avl-node-left (avl-node-left y))\n   (make-avl-node\n    (avl-node-key y)\n    (avl-node-right (avl-node-left y))\n    (avl-node-right y))))\n(define (rotate-left x)\n  (make-avl-node\n   (avl-node-key (avl-node-right x))\n   (make-avl-node\n    (avl-node-key x)\n    (avl-node-left x)\n    (avl-node-left (avl-node-right x)))\n   (avl-node-right (avl-node-right x))))\n(define (avl-rebalance t)\n  (cond\n    [(> (avl-balance-factor t) 1)\n     (if (< (avl-balance-factor (avl-node-left t)) 0)\n         (rotate-right\n          (make-avl-node\n           (avl-node-key t)\n           (rotate-left (avl-node-left t))\n           (avl-node-right t)))\n         (rotate-right t))]\n    [(< (avl-balance-factor t) -1)\n     (if (> (avl-balance-factor (avl-node-right t)) 0)\n         (rotate-left\n          (make-avl-node\n           (avl-node-key t)\n           (avl-node-left t)\n           (rotate-right (avl-node-right t))))\n         (rotate-left t))]\n    [else t]))\n(define (avl-member? x t)\n  (cond\n    [(avl-empty? t) false]\n    [(= x (avl-node-key t)) true]\n    [(< x (avl-node-key t)) (avl-member? x (avl-node-left t))]\n    [else                   (avl-member? x (avl-node-right t))]))\n(define (avl-size t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1\n             (avl-size (avl-node-left t))\n             (avl-size (avl-node-right t)))]))\n(define (avl-min t)\n  (cond\n    [(avl-empty? t)\n     (error \"avl-min: empty tree\")]\n    [(avl-empty? (avl-node-left t))\n     (avl-node-key t)]\n    [else\n     (avl-min (avl-node-left t))]))\n(define (avl-insert x t)\n  (cond\n    [(avl-empty? t)\n     (make-avl-node x avl-empty avl-empty)]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-insert x (avl-node-left t))\n       (avl-node-right t)))]\n    [else\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-insert x (avl-node-right t))))]))\n(define (avl-remove x t)\n  (cond\n    [(avl-empty? t)\n     avl-empty]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-remove x (avl-node-left t))\n       (avl-node-right t)))]\n    [(> x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-remove x (avl-node-right t))))]\n    [else\n     (cond\n       [(avl-empty? (avl-node-left t))\n        (avl-node-right t)]\n       [(avl-empty? (avl-node-right t))\n        (avl-node-left t)]\n       [else\n        (avl-rebalance\n         (make-avl-node\n          (avl-min (avl-node-right t))\n          (avl-node-left t)\n          (avl-remove (avl-min (avl-node-right t))\n                      (avl-node-right t))))])]))\n(define-struct minqueue (front back avl))\n(define mq-empty (make-minqueue empty empty avl-empty))\n(define (mq-empty? M)\n  (and (empty? (minqueue-front M))\n       (empty? (minqueue-back M))))\n(define (mq-enqueue x M)\n  (make-minqueue\n   (minqueue-front M)\n   (cons x (minqueue-back M))\n   (avl-insert x (minqueue-avl M))))\n(define (mq-min M)\n  (avl-min (minqueue-avl M)))",
+          "hiddenCases": [
+            "(check-expect (mq-front (mq-enqueue 5 mq-empty)) 5)",
+            "(check-expect (mq-front (mq-enqueue 20 (mq-enqueue 10 mq-empty))) 10)",
+            "(check-expect (mq-front (mq-enqueue 30 (mq-enqueue 20 (mq-enqueue 10 mq-empty)))) 10)"
+          ],
+          "explanation": "In a two-list queue, the oldest element is at the head of the front list. If the front list is non-empty, return its first element. If front is empty but the queue is non-empty, the oldest element is at the end of the back list—reverse the back list and take its first element. This function only reads data, it doesn't modify the MinQueue structure."
+        },
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Implement `mq-dequeue` that takes a non-empty MinQueue and returns a list containing two elements: the oldest value and the updated MinQueue with that value removed:",
+          "starterCode": "(define (mq-dequeue M))",
+          "precode": "(define-struct avl-node (key left right))\n(define avl-empty empty)\n(define (avl-empty? t) (empty? t))\n(define (avl-height t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1 (max (avl-height (avl-node-left t))\n                    (avl-height (avl-node-right t))))]))\n(define (avl-balance-factor t)\n  (- (avl-height (avl-node-left t))\n     (avl-height (avl-node-right t))))\n(define (rotate-right y)\n  (make-avl-node\n   (avl-node-key (avl-node-left y))\n   (avl-node-left (avl-node-left y))\n   (make-avl-node\n    (avl-node-key y)\n    (avl-node-right (avl-node-left y))\n    (avl-node-right y))))\n(define (rotate-left x)\n  (make-avl-node\n   (avl-node-key (avl-node-right x))\n   (make-avl-node\n    (avl-node-key x)\n    (avl-node-left x)\n    (avl-node-left (avl-node-right x)))\n   (avl-node-right (avl-node-right x))))\n(define (avl-rebalance t)\n  (cond\n    [(> (avl-balance-factor t) 1)\n     (if (< (avl-balance-factor (avl-node-left t)) 0)\n         (rotate-right\n          (make-avl-node\n           (avl-node-key t)\n           (rotate-left (avl-node-left t))\n           (avl-node-right t)))\n         (rotate-right t))]\n    [(< (avl-balance-factor t) -1)\n     (if (> (avl-balance-factor (avl-node-right t)) 0)\n         (rotate-left\n          (make-avl-node\n           (avl-node-key t)\n           (avl-node-left t)\n           (rotate-right (avl-node-right t))))\n         (rotate-left t))]\n    [else t]))\n(define (avl-member? x t)\n  (cond\n    [(avl-empty? t) false]\n    [(= x (avl-node-key t)) true]\n    [(< x (avl-node-key t)) (avl-member? x (avl-node-left t))]\n    [else                   (avl-member? x (avl-node-right t))]))\n(define (avl-size t)\n  (cond\n    [(avl-empty? t) 0]\n    [else (+ 1\n             (avl-size (avl-node-left t))\n             (avl-size (avl-node-right t)))]))\n(define (avl-min t)\n  (cond\n    [(avl-empty? t)\n     (error \"avl-min: empty tree\")]\n    [(avl-empty? (avl-node-left t))\n     (avl-node-key t)]\n    [else\n     (avl-min (avl-node-left t))]))\n(define (avl-insert x t)\n  (cond\n    [(avl-empty? t)\n     (make-avl-node x avl-empty avl-empty)]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-insert x (avl-node-left t))\n       (avl-node-right t)))]\n    [else\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-insert x (avl-node-right t))))]))\n(define (avl-remove x t)\n  (cond\n    [(avl-empty? t)\n     avl-empty]\n    [(< x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-remove x (avl-node-left t))\n       (avl-node-right t)))]\n    [(> x (avl-node-key t))\n     (avl-rebalance\n      (make-avl-node\n       (avl-node-key t)\n       (avl-node-left t)\n       (avl-remove x (avl-node-right t))))]\n    [else\n     (cond\n       [(avl-empty? (avl-node-left t))\n        (avl-node-right t)]\n       [(avl-empty? (avl-node-right t))\n        (avl-node-left t)]\n       [else\n        (avl-rebalance\n         (make-avl-node\n          (avl-min (avl-node-right t))\n          (avl-node-left t)\n          (avl-remove (avl-min (avl-node-right t))\n                      (avl-node-right t))))])]))\n(define-struct minqueue (front back avl))\n(define mq-empty (make-minqueue empty empty avl-empty))\n(define (mq-enqueue x M)\n  (make-minqueue\n   (minqueue-front M)\n   (cons x (minqueue-back M))\n   (avl-insert x (minqueue-avl M))))\n(define (mq-front M)\n  (local [(define front-list (minqueue-front M))\n          (define back-list (minqueue-back M))]\n    (cond\n      [(empty? front-list) (first (reverse back-list))]\n      [else (first front-list)])))\n(define (mq-min M)\n  (avl-min (minqueue-avl M)))",
+          "hiddenCases": [
+            "(check-expect (first (mq-dequeue (mq-enqueue 5 mq-empty))) 5)",
+            "(check-expect (first (mq-dequeue (mq-enqueue 20 (mq-enqueue 10 mq-empty)))) 10)",
+            "(check-expect (mq-front (second (mq-dequeue (mq-enqueue 20 (mq-enqueue 10 mq-empty))))) 20)",
+            "(check-expect (mq-min (second (mq-dequeue (mq-enqueue 10 (mq-enqueue 5 mq-empty))))) 10)"
+          ],
+          "explanation": "Remove and return the oldest element. If front is non-empty, remove its first element. If front is empty, first reverse back to become the new front, then remove the first element from it. In both cases: (1) remove the element from the AVL tree using `avl-remove` to maintain consistency, and (2) return a two-element list containing the removed value and the updated MinQueue."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "Imagine a student debugging a tiny calculator program they built for a class project. While testing it, they pause to review the miniature expression language the program relies on, which allows expressions to be either simple numbers or lists representing addition and subtraction—specifically, a number, a list of the form `('+ Expr Expr)`, or a list of the form `('- Expr Expr)`. The entire case analysis must be handled using `match`, ensuring each variant of the expression is correctly identified and processed.",
+      "content": [
+        {
+          "type": "question",
+          "points": 4,
+          "prompt": "code",
+          "content": "Write the function `eval-expr`:",
+          "starterCode": "(define (eval-expr expr))",
+          "hiddenCases": [
+            "(check-expect (eval-expr 5) 5)",
+            "(check-expect (eval-expr '(+ 1 2)) 3)",
+            "(check-expect (eval-expr '(- 10 3)) 7)",
+            "(check-expect (eval-expr '(- (+ 3 10) 4)) 9)",
+            "(check-expect (eval-expr '(+ (- (- 10 5) 5) 10)) 10)"
+          ],
+          "explanation": "Use `match` to pattern match on the expression. The base case is when `expr` is a number (return it as-is). For `(list '+ e1 e2)`, recursively evaluate both sub-expressions and add them. For `(list '- e1 e2)`, recursively evaluate both sub-expressions and subtract them."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following and then fill in the blanks:",
+      "description": "For the expression below, show the **first** and **second** substitution steps, and then give the **final value**. If the evaluation would produce an error, simply write `error` instead. This will not happen on the first two steps. Note the following function:",
+      "content": [
+        {
+          "type": "code",
+          "content": "(posn-y (make-posn (add1 4) (sub1 9)))"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "1st step:",
+          "verification": "const t = s => ((/^\\(\\s*posn-y\\s*\\(\\s*make-posn\\s+5\\s+\\(\\s*sub1\\s+9\\s*\\)\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The first substitution step evaluates `(add1 4)` to `5`, giving us `(posn-y (make-posn 5 (sub1 9)))`"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "2nd step:",
+          "verification": "const t = s => ((/^\\(\\s*posn-y\\s*\\(\\s*make-posn\\s+5\\s+8\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The second substitution step evaluates `(sub1 9)` to `8`, giving us `(posn-y (make-posn 5 8))`"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Final step:",
+          "verification": "const t = s => s.trim() === '8' ? 1 : 0;",
+          "explanation": "The final value is `8`. After `(make-posn 5 8)` creates a posn structure, `posn-y` extracts the y-coordinate, which is `8`"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following and then fill in the blanks:",
+      "description": "For the expression below, show the **first** and **second** substitution steps, and then give the **final value**. If the evaluation would produce an error, simply write `error` instead. This will not happen in the first two steps. Note the following function:",
+      "content": [
+        {
+          "type": "code",
+          "content": "(define (sum-to n)\n  (if (zero? n)\n      0\n      (+ n (sum-to (sub1 n)))))\n\n(sum-to (add1 2))"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "1st step:",
+          "verification": "const t = s => ((/^\\(\\s*sum-to\\s+3\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The first substitution step evaluates `(add1 2)` to `3`, giving `(sum-to 3)`"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "2nd step:",
+          "verification": "const t = s => ((/^\\(\\s*if\\s*\\(\\s*zero\\?\\s+3\\s*\\)\\s*0\\s*\\(\\s*\\+\\s*3\\s*\\(\\s*sum-to\\s*\\(\\s*sub1\\s+3\\s*\\)\\s*\\)\\s*\\)\\s*\\)$/u).test(s.trim()) ? 1 : 0);",
+          "explanation": "The second substitution step expands the definition of `sum-to` without simplifying `(sub1 3)`. So `(sum-to 3)` becomes `(if (zero? 3) 0 (+ 3 (sum-to (sub1 3))))`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Final step:",
+          "verification": "const t = s => (s.trim() === '6' ? 1 : 0);",
+          "explanation": "The final value is `6`. `sum-to` produces the sum of all integers from n down to 0. So `(sum-to 3)` → 3 + 2 + 1 + 0 = 6."
+        }
+      ]
+    },    
+    {
+      "type": "section",
+      "title": "Read the following carefully and then answer the questions:",
+      "description": "In lambda calculus, **beta-reduction** is the process of applying a function to an argument by substituting the argument for the parameter in the function body. When reducing complex expressions, you perform one beta-reduction at a time until no more reductions are possible.",
+      "content": [
+        {
+          "type": "text",
+          "content": "Reduce the following lambda calculus expression step by step: `((λx.(λy.(x (x y)))) (λz.(z z)))`"
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "1st step:",
+          "verification": "const t = s => { const clean = s.trim().replace(/\\s+/g, ' '); return (/^\\(?λy\\.\\(\\(λz\\.\\(z z\\)\\) \\(\\(λz\\.\\(z z\\)\\) y\\)\\)\\)?$/i.test(clean) || /^\\(?\\(lambda \\(y\\) \\(\\(\\(lambda \\(z\\) \\(z z\\)\\)\\) \\(\\(\\(lambda \\(z\\) \\(z z\\)\\)\\) y\\)\\)\\)\\)?$/i.test(clean)) ? 1 : 0; };",
+          "explanation": "The first reduction substitutes `(λz.(z z))` for `x` in the body `(λy.(x (x y)))`, giving us `(λy.((λz.(z z)) ((λz.(z z)) y)))`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "2nd step:",
+          "verification": "const t = s => { const clean = s.trim().replace(/\\s+/g, ' '); return (/^\\(?λy\\.\\(\\(λz\\.\\(z z\\)\\) \\(y y\\)\\)\\)?$/i.test(clean) || /^\\(?\\(lambda \\(y\\) \\(\\(\\(lambda \\(z\\) \\(z z\\)\\)\\) \\(y y\\)\\)\\)\\)?$/i.test(clean)) ? 1 : 0; };",
+          "explanation": "Reduce the inner application `((λz.(z z)) y)` by substituting `y` for `z` in `(z z)`, which gives `(y y)`. The full expression becomes `(λy.((λz.(z z)) (y y)))`."
+        },
+        {
+          "type": "question",
+          "points": 1,
+          "prompt": "single-line-textbox",
+          "content": "Final step:",
+          "verification": "const t = s => { const clean = s.trim().replace(/\\s+/g, ' '); return (/^\\(?λy\\.\\(\\(y y\\) \\(y y\\)\\)\\)?$/i.test(clean) || /^\\(?\\(lambda \\(y\\) \\(\\(y y\\) \\(y y\\)\\)\\)\\)?$/i.test(clean)) ? 1 : 0; };",
+          "explanation": "Reduce the remaining application `((λz.(z z)) (y y))` by substituting `(y y)` for `z` in `(z z)`, which gives `((y y) (y y))`. The final simplified form is `(λy.((y y) (y y)))`. This function takes an argument and applies it to itself, then applies that result to another copy of the argument applied to itself."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "In lambda calculus, church booleans are a way to represent boolean values using only functions. The Church encoding for `True` is `λt.λf.t` (a function that takes two arguments and returns the first), and `False` is `λt.λf.f` (returns the second). Using these encodings, we can build logical operators purely from lambda expressions. Define a λ-expression NAND. Your answer must use only function abstraction and application. You may assume `True` and `False` are already defined, and youa are free to use them in your solution.",
+      "content": [
+        {
+          "type": "question",
+          "points": 3,
+          "prompt": "code",
+          "content": "Write the function `NAND`:",
+          "starterCode": "(define NAND)",
+          "precode": ";; Church booleans\n(define True (lambda (t) (lambda (f) t)))\n(define False (lambda (t) (lambda (f) f)))\n\n;; Helper to convert Church boolean to Racket boolean for testing\n(define (church->bool cb)\n  ((cb true) false))",
+          "hiddenCases": [
+            "(check-expect (church->bool ((NAND True) True)) false)",
+            "(check-expect (church->bool ((NAND True) False)) true)",
+            "(check-expect (church->bool ((NAND False) True)) true)",
+            "(check-expect (church->bool ((NAND False) False)) true)"
+          ],
+          "explanation": "A correct Church-encoded NAND must first compute the Church AND of the two inputs and then apply Church NOT to that result. AND should produce a boolean when given one argument at a time (e.g., `(a b a)`), and NOT must be applied as two separate, fully parenthesized applications (e.g., `(((AND-result) False) True)`) so that each function always receives exactly one argument. Solutions that mis-parenthesize or apply more than one argument at once will cause arity errors or yield incorrect reductions."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "In Church encoding, natural numbers are represented as higher-order functions. The Church numeral `0` is `λf.λx.x`, and `1` is `λf.λx.f x`. Using these encodings, arithmetic operators can be constructed using only function abstraction and application. Define a λ-expression `PRED` (the predecessor function), which takes a Church numeral n and returns n−1 (with `0` as the predecessor of `0`). Your answer must use only lambda abstraction and application, and you may assume `0` and `1` are already defined.",
+      "content": [
+        {
+          "type": "question",
+          "points": 5,
+          "prompt": "code",
+          "content": "Write the function `PRED`:",
+          "starterCode": "(define PRED)",
+          "precode": ";; Church numerals\n(define ZERO (lambda (f) (lambda (x) x)))\n(define ONE  (lambda (f) (lambda (x) (f x))))\n\n;; Helper for testing\n(define (church->int n)\n  ((n (lambda (k) (+ k 1))) 0))",
+          "hiddenCases": [
+            "(check-expect (church->int (PRED ZERO)) 0)",
+            "(check-expect (church->int (PRED ONE)) 0)",
+            "(check-expect (church->int (PRED (lambda (f) (lambda (x) (f (f x)))))) 1)",
+            "(check-expect (church->int (PRED (lambda (f) (lambda (x) (f (f (f x))))))) 2)"
+          ],
+          "explanation": "A correct Church-encoded predecessor must reconstruct the numeral by threading a pair through n applications, keeping track of the previous value. The classic formulation uses a helper function that transforms `(a, b)` into `(b, b+1)` under Church encoding. The final answer must apply this transformer n times starting from the pair `(0, 0)` and then extract the first component. Each step must be expressed as fully explicit lambda applications so that no function receives more than one argument simultaneously."
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Read the following carefully and then write the function:",
+      "description": "In Church encoding, pairs can be represented purely with functions. A Church pair is defined as `λf. f a b`, where `a` and `b` are the two stored values. The selectors `FIRST` and `SECOND` retrieve the first and second element from a pair by passing appropriate functions. Using these definitions, we can construct operations on pairs without using any native data structures. Define a λ-expression `SWAP` that takes a Church pair and returns a new Church pair whose components are reversed. Your answer must use only function abstraction and application, and you may assume `PAIR`, `FIRST`, and `SECOND` are already defined.",
+      "content": [
+        {
+          "type": "question",
+          "points": 3,
+          "prompt": "code",
+          "content": "Write the function `SWAP`:",
+          "starterCode": "(define SWAP)",
+          "precode": ";; Church pair constructor and selectors\n(define (PAIR a)\n  (lambda (b)\n    (lambda (f) (f a b))))\n\n(define FIRST  (lambda (p) (p (lambda (a b) a))))\n(define SECOND (lambda (p) (p (lambda (a b) b))))\n\n;; Helper to convert a pair of Church numerals to a Racket list for testing\n(define (pair->list p)\n  (list (FIRST p) (SECOND p)))",
+          "hiddenCases": [
+            "(check-expect (pair->list (SWAP ((PAIR 1) 2))) (list 2 1))",
+            "(check-expect (pair->list (SWAP ((PAIR 'a) 'b))) (list 'b 'a))",
+            "(check-expect (pair->list (SWAP ((PAIR True) False))) (list False True))"
+          ],
+          "explanation": "A correct Church-encoded SWAP must construct a new PAIR whose first element is the SECOND of the original pair and whose second element is the FIRST of the original. Because Church pairs take one argument at a time, solutions must explicitly apply each selector and constructor step-by-step. Incorrect parenthesization or passing multiple arguments at once will cause failures or arity errors."
+        }
+      ]
+    }
+  ]
+}

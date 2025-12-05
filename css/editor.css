@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-y: scroll; /* Prevent layout shift when scrollbar appears */
+}
+
 :root {
     --bg-primary: #ffffff;
     --bg-secondary: #f5f5f5;
@@ -40,9 +44,14 @@
     --status-incomplete-bg: #f8f9fa;
     --status-incomplete-color: #6c757d;
     --status-incomplete-border: #ddd;
+    --code-highlight-bg: #e6e6e6;
 }
 
-body.dark-theme {
+html.dark-theme {
+    color-scheme: dark;
+}
+
+html.dark-theme body {
     --bg-primary: #1e1e1e;
     --bg-secondary: #252525;
     --bg-tertiary: #2d2d2d;
@@ -78,6 +87,7 @@ body.dark-theme {
     --status-incomplete-bg: #2d2d2d;
     --status-incomplete-color: #b0b0b0;
     --status-incomplete-border: #404040;
+    --code-highlight-bg: #393939;
 }
 
 body {
@@ -309,54 +319,99 @@ body {
     border: 1px solid var(--border-color-light) !important;
 }
 
-body.dark-theme .CodeMirror {
+html.dark-theme .CodeMirror {
     background: var(--bg-code) !important;
     color: var(--text-primary) !important;
 }
 
-body.dark-theme .CodeMirror-gutters {
+html.dark-theme .CodeMirror-gutters {
     background: var(--bg-secondary) !important;
     border-right: 1px solid var(--border-color) !important;
 }
 
-body.dark-theme .CodeMirror-linenumber {
+html.dark-theme .CodeMirror-linenumber {
     color: var(--text-secondary) !important;
 }
 
-body.dark-theme .CodeMirror-cursor {
+html.dark-theme .CodeMirror-cursor {
     border-left: 1px solid var(--text-primary) !important;
 }
 
-body.dark-theme .CodeMirror-selected {
+html.dark-theme .CodeMirror-selected {
     background: rgba(255, 255, 255, 0.1) !important;
 }
 
-body.dark-theme .CodeMirror-line::selection,
-body.dark-theme .CodeMirror-line > span::selection,
-body.dark-theme .CodeMirror-line > span > span::selection {
+html.dark-theme .CodeMirror-line::selection,
+html.dark-theme .CodeMirror-line > span::selection,
+html.dark-theme .CodeMirror-line > span > span::selection {
     background: rgba(255, 255, 255, 0.2) !important;
 }
 
-body.dark-theme .cm-keyword { color: #569cd6 !important; }
-body.dark-theme .cm-atom { color: #ce9178 !important; }
-body.dark-theme .cm-number { color: #b5cea8 !important; }
-body.dark-theme .cm-def { color: #dcdcaa !important; }
-body.dark-theme .cm-variable { color: #9cdcfe !important; }
-body.dark-theme .cm-variable-2 { color: #9cdcfe !important; }
-body.dark-theme .cm-variable-3 { color: #4fc1ff !important; }
-body.dark-theme .cm-property { color: #9cdcfe !important; }
-body.dark-theme .cm-operator { color: #d4d4d4 !important; }
-body.dark-theme .cm-comment { color: #6a9955 !important; }
-body.dark-theme .cm-string { color: #ce9178 !important; }
-body.dark-theme .cm-string-2 { color: #ce9178 !important; }
-body.dark-theme .cm-meta { color: #d7ba7d !important; }
-body.dark-theme .cm-qualifier { color: #4ec9b0 !important; }
-body.dark-theme .cm-builtin { color: #4ec9b0 !important; }
-body.dark-theme .cm-bracket { color: #da70d6 !important; }
-body.dark-theme .cm-tag { color: #569cd6 !important; }
-body.dark-theme .cm-attribute { color: #9cdcfe !important; }
-body.dark-theme .cm-error { color: #f44747 !important; background: rgba(244, 71, 71, 0.15) !important; }
-body.dark-theme .CodeMirror-matchingbracket { color: #00ff00 !important; background: rgba(0, 255, 0, 0.15) !important; }
+html.dark-theme .cm-keyword { color: #569cd6 !important; }
+html.dark-theme .cm-atom { color: #ce9178 !important; }
+html.dark-theme .cm-number { color: #b5cea8 !important; }
+html.dark-theme .cm-def { color: #dcdcaa !important; }
+html.dark-theme .cm-variable { color: #9cdcfe !important; }
+html.dark-theme .cm-variable-2 { color: #9cdcfe !important; }
+html.dark-theme .cm-variable-3 { color: #4fc1ff !important; }
+html.dark-theme .cm-property { color: #9cdcfe !important; }
+html.dark-theme .cm-operator { color: #d4d4d4 !important; }
+html.dark-theme .cm-comment { color: #6a9955 !important; }
+html.dark-theme .cm-string { color: #ce9178 !important; }
+html.dark-theme .cm-string-2 { color: #ce9178 !important; }
+html.dark-theme .cm-meta { color: #d7ba7d !important; }
+html.dark-theme .cm-qualifier { color: #4ec9b0 !important; }
+html.dark-theme .cm-builtin { color: #4ec9b0 !important; }
+html.dark-theme .cm-bracket { color: #da70d6 !important; }
+html.dark-theme .cm-tag { color: #569cd6 !important; }
+html.dark-theme .cm-attribute { color: #9cdcfe !important; }
+html.dark-theme .cm-error { color: #f44747 !important; background: rgba(244, 71, 71, 0.15) !important; }
+html.dark-theme .CodeMirror-matchingbracket { color: #00ff00 !important; background: rgba(0, 255, 0, 0.15) !important; }
+
+/* Dark mode scrollbars for CodeMirror and code blocks */
+html.dark-theme .CodeMirror-scroll::-webkit-scrollbar,
+html.dark-theme .CodeMirror-hscrollbar::-webkit-scrollbar,
+html.dark-theme .CodeMirror-vscrollbar::-webkit-scrollbar,
+html.dark-theme pre::-webkit-scrollbar,
+html.dark-theme .output-console::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+html.dark-theme .CodeMirror-scroll::-webkit-scrollbar-track,
+html.dark-theme .CodeMirror-hscrollbar::-webkit-scrollbar-track,
+html.dark-theme .CodeMirror-vscrollbar::-webkit-scrollbar-track,
+html.dark-theme pre::-webkit-scrollbar-track,
+html.dark-theme .output-console::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+html.dark-theme .CodeMirror-scroll::-webkit-scrollbar-thumb,
+html.dark-theme .CodeMirror-hscrollbar::-webkit-scrollbar-thumb,
+html.dark-theme .CodeMirror-vscrollbar::-webkit-scrollbar-thumb,
+html.dark-theme pre::-webkit-scrollbar-thumb,
+html.dark-theme .output-console::-webkit-scrollbar-thumb {
+    background: #4a4a4a;
+    border-radius: 4px;
+    border: 2px solid #1e1e1e;
+}
+
+html.dark-theme .CodeMirror-scroll::-webkit-scrollbar-thumb:hover,
+html.dark-theme .CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover,
+html.dark-theme .CodeMirror-vscrollbar::-webkit-scrollbar-thumb:hover,
+html.dark-theme pre::-webkit-scrollbar-thumb:hover,
+html.dark-theme .output-console::-webkit-scrollbar-thumb:hover {
+    background: #5a5a5a;
+}
+
+html.dark-theme .CodeMirror-hscrollbar,
+html.dark-theme .CodeMirror-vscrollbar {
+    background: #1e1e1e;
+}
+
+html.dark-theme .CodeMirror-scrollbar-filler {
+    background: #1e1e1e;
+}
 
 .output-container {
     height: 200px;
