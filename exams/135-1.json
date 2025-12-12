@@ -73,7 +73,7 @@
           "type": "question",
           "points": 1,
           "prompt": "single-line-textbox",
-          "content": "The most appropriate contract for the built-in function `andmap` is:",
+          "content": "The most appropriate contract for the built-in function `andmap`, which takes a predicate function and a list, and returns true only if the predicate returns true for all elements, is:",
           "verification": "const t = s => ((/\\s*andmap\\s*:\\s*\\(\\s*([A-Za-z])\\s*->\\s*(?:bool|Bool|boolean|Boolean)\\s*\\)\\s*\\(\\s*listof\\s*\\1\\s*\\)\\s*->\\s*(?:bool|Bool|boolean|Boolean)\\s*$/u).test(s.trim()) ? 1 : 0);",
           "explanation": "The function `andmap` takes a predicate function and a list, applies the predicate to every element, and returns true only if the predicate returns true for all elements. Therefore, its first argument must be a function from some type `X` to `Bool`, its second argument a list of `X` (the same type), and its result a `Bool`."
         }
