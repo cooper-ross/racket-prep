@@ -33,7 +33,7 @@
     "(check-expect (balanced? (make-node empty empty 5)) true)",
     "(check-expect (balanced? (make-node (make-node empty empty 2) (make-node empty empty 8) 5)) true)",
     "(check-expect (balanced? (make-node (make-node (make-node empty empty 1) empty 2) empty 5)) false)",
-    "(check-expect (balanced? (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5)) false)",
+    "(check-expect (balanced? (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5)) true)",
     "(check-expect (balanced? (make-node empty (make-node empty (make-node empty empty 10) 8) 5)) false)",
     "(check-expect (balanced? (make-node (make-node empty empty 2) empty 5)) true)",
     "(check-expect (balanced? (make-node (make-node (make-node (make-node empty empty 1) empty 3) empty 7) (make-node empty (make-node empty empty 15) 12) 10)) false)",
