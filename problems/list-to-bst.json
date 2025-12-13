@@ -26,13 +26,13 @@
   "hiddenCases": [
     "(check-expect (list->bst empty) empty)",
     "(check-expect (list->bst (list 5)) (make-node empty empty 5))",
-    "(check-expect (list->bst (list 3 1 4 2)) (make-node (make-node (make-node empty empty 1) empty 2) (make-node empty empty 4) 3))",
+    "(check-expect (list->bst (list 3 1 4 2)) (make-node (make-node empty (make-node empty empty 2) 1) (make-node empty empty 4) 3))",
     "(check-expect (list->bst (list 5 3 7 1 4 6 8)) (make-node (make-node (make-node empty empty 1) (make-node empty empty 4) 3) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5))",
-    "(check-expect (list->bst (list 1 2 3 4 5)) (make-node (make-node (make-node (make-node empty empty 1) empty 2) empty 3) (make-node empty empty 4) 5))",
+    "(check-expect (list->bst (list 1 2 3 4 5)) (make-node empty (make-node empty (make-node empty (make-node empty (make-node empty empty 5) 4) 3) 2) 1))",
     "(check-expect (list->bst (list 5 4 3 2 1)) (make-node (make-node (make-node (make-node (make-node empty empty 1) empty 2) empty 3) empty 4) empty 5))",
-    "(check-expect (list->bst (list 8 4 12 2 6 10 14 1 3 5 7 9 11 13 15)) (make-node (make-node (make-node (make-node (make-node empty empty 1) empty 2) (make-node empty empty 3) 4) (make-node (make-node empty empty 5) (make-node empty empty 7) 6) 8) (make-node (make-node (make-node empty empty 9) (make-node empty empty 11) 10) (make-node (make-node empty empty 13) (make-node empty empty 15) 14) 12))",
+    "(check-expect (list->bst (list 8 4 12 2 6 10 14 1 3 5 7 9 11 13 15)) (make-node (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 5) (make-node empty empty 7) 6) 4) (make-node (make-node (make-node empty empty 9) (make-node empty empty 11) 10) (make-node (make-node empty empty 13) (make-node empty empty 15) 14) 12) 8))",
     "(check-expect (list->bst (list 10 5 15 3 7 12 17 1 4 6 8 11 13 16 18)) (make-node (make-node (make-node (make-node empty empty 1) (make-node empty empty 4) 3) (make-node (make-node empty empty 6) (make-node empty empty 8) 7) 5) (make-node (make-node (make-node empty empty 11) (make-node empty empty 13) 12) (make-node (make-node empty empty 16) (make-node empty empty 18) 17) 15) 10))",
     "(check-expect (list->bst (list 4 2 6 1 3 5 7)) (make-node (make-node (make-node empty empty 1) (make-node empty empty 3) 2) (make-node (make-node empty empty 5) (make-node empty empty 7) 6) 4))",
-    "(check-expect (list->bst (list 7 3 11 1 5 9 13 0 2 4 6 8 10 12 14)) (make-node (make-node (make-node (make-node (make-node empty empty 0) empty 1) (make-node empty empty 2) 3) (make-node (make-node empty empty 4) (make-node empty empty 6) 5) 7) (make-node (make-node (make-node empty empty 8) (make-node empty empty 10) 9) (make-node (make-node empty empty 12) (make-node empty empty 14) 13) 11))"
+    "(check-expect (list->bst (list 7 3 11 1 5 9 13 0 2 4 6 8 10 12 14)) (make-node (make-node (make-node (make-node empty empty 0) (make-node empty empty 2) 1) (make-node (make-node empty empty 4) (make-node empty empty 6) 5) 3) (make-node (make-node (make-node empty empty 8) (make-node empty empty 10) 9) (make-node (make-node empty empty 12) (make-node empty empty 14) 13) 11) 7))"
   ]
 }
